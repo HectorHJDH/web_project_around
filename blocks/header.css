@@ -1,0 +1,19 @@
+.header {
+  display: flex;
+  flex-direction: row;
+  height: 74px;
+  margin: 45px auto 40px;
+  border-bottom: 1px solid #e5e5e5;
+  width: 880px;
+  font-family: "Inter-display";
+}
+
+.header__title {
+  font-size: 1.68rem;
+  margin: 0;
+  letter-spacing: 1px;
+}
+
+.header__span {
+  font-size: 0.56rem;
+}
