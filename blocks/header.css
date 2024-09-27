@@ -5,11 +5,11 @@
   margin: 45px auto 40px;
   border-bottom: 1px solid #e5e5e5;
   width: 880px;
-  font-family: "Inter-display";
+  font-family: "Inter-Light";
 }
 
 .header__title {
-  font-size: 1.68rem;
+  font-size: 2.25rem;
   margin: 0;
   letter-spacing: 1px;
 }
