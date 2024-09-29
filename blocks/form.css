@@ -85,3 +85,41 @@
   background-color: #313131;
   color: #ffffff;
 }
+
+@media screen and (max-width: 900px) {
+  .form {
+    top: 17%;
+    height: 322px;
+    width: 282px;
+  }
+
+  .profile__edit-form {
+    padding: 22px;
+  }
+
+  .form__title {
+    font-size: 1.125rem;
+    margin: 0 0 76px 0;
+  }
+
+  .profile__form-input {
+    width: 238px;
+    padding: 0 0 12px 0;
+    font-size: 0.875rem;
+  }
+
+  .close__button-image {
+    width: 26px;
+    height: 26px;
+    position: absolute;
+    top: 0px;
+    right: 43px;
+  }
+
+  .profile__form-submit {
+    width: 238px;
+    height: 46px;
+    font-size: 0.875rem;
+    padding: 14px;
+  }
+}
