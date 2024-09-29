@@ -27,11 +27,11 @@
             />
             <div class="profile__container">
               <div class="profile__container profile__content">
-                <h2 class="profile__content profile__title">Jacques Costeau</h2>
+                <h2 class="profile__content profile__name">Jacques Costeau</h2>
                 <button class="profile__content profile__edit-button">
                   <img
                     src="./images/Edit_Button.png"
-                    class="profile__edit-button profile__edit-button__image"
+                    class="profile__edit-button-image"
                     alt="edit button"
                   />
                 </button>
@@ -40,8 +40,43 @@
             </div>
           </div>
           <button class="profile__button add__button">
-            <img src="./images/Add_Button.png" alt="add button" />
+            <img
+              src="./images/Add_Button.png"
+              class="add__button-image"
+              alt="add button"
+            />
           </button>
+        </section>
+
+        <section class="form">
+          <div class="form__container">
+            <button class="close__button">
+              <img
+                src="./images/Close_Icon.png"
+                class="close__button-image"
+                alt="Close form"
+              />
+            </button>
+            <form class="profile__edit-form">
+              <h3 class="form__title">Editar Perfil</h3>
+              <input
+                type="text"
+                id="name"
+                class="profile__form-input"
+                placeholder="Nombre"
+              />
+              <input
+                type="text"
+                id="dedication"
+                class="profile__form-input"
+                placeholder="Acerca de mi"
+              />
+
+              <button type="submit" class="profile__form-submit">
+                Guardar
+              </button>
+            </form>
+          </div>
         </section>
 
         <section class="gallery">
@@ -55,7 +90,7 @@
               <button class="gallery__likeButton">
                 <img
                   src="./images/Like_Button.svg"
-                  class="gallery__likeButton gallery__likeButton_image"
+                  class="gallery__likeButton-image"
                 />
               </button>
             </div>
@@ -71,7 +106,7 @@
               <button class="gallery__likeButton">
                 <img
                   src="./images/Like_Button.svg"
-                  class="gallery__likeButton gallery__likeButton_image"
+                  class="gallery__likeButton-image"
                 />
               </button>
             </div>
@@ -87,7 +122,7 @@
               <button class="gallery__likeButton">
                 <img
                   src="./images/Like_Button.svg"
-                  class="gallery__likeButton gallery__likeButton_image"
+                  class="gallery__likeButton-image"
                 />
               </button>
             </div>
@@ -103,7 +138,7 @@
               <button class="gallery__likeButton">
                 <img
                   src="./images/Like_Button.svg"
-                  class="gallery__likeButton gallery__likeButton_image"
+                  class="gallery__likeButton-image"
                 />
               </button>
             </div>
@@ -119,7 +154,7 @@
               <button class="gallery__likeButton">
                 <img
                   src="./images/Like_Button.svg"
-                  class="gallery__likeButton gallery__likeButton_image"
+                  class="gallery__likeButton-image"
                 />
               </button>
             </div>
@@ -135,7 +170,7 @@
               <button class="gallery__likeButton">
                 <img
                   src="./images/Like_Button.svg"
-                  class="gallery__likeButton gallery__likeButton_image"
+                  class="gallery__likeButton-image"
                 />
               </button>
             </div>
@@ -147,5 +182,6 @@
         <p class="footer__copyright">© 2024 Around The U.S.</p>
       </footer>
     </div>
+    <script src="./scripts/scripts.js"></script>
   </body>
 </html>

@@ -17,3 +17,10 @@
 .header__span {
   font-size: 0.56rem;
 }
+
+@media screen and (max-width: 900px) {
+  .header {
+    padding: 0 20px;
+    width: 320px;
+  }
+}

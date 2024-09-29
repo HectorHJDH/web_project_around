@@ -41,21 +41,27 @@
 }
 
 .gallery__likeButton {
+  display: flex;
+  align-items: center;
   height: 24px;
   width: 24px;
   background: none;
   border: none;
   padding: 0;
-  display: flex;
-  align-items: center;
 }
 
-.gallery__likeButton_image {
+.gallery__likeButton-image {
   width: 100%;
   height: 100%;
   display: block;
 }
 
-.gallery__likeButton:hover {
+.gallery__likeButton:not(.liked):hover {
+  cursor: pointer;
+  filter: brightness(0.8); /* Example hover effect */
+}
+
+.gallery__likeButton:hover .gallery__likeButton-image {
+  content: url("../images/Like_Button_hover.svg"); /* Replace with the path to your hover image */
   cursor: pointer;
 }
