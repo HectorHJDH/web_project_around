@@ -58,10 +58,17 @@
 
 .gallery__likeButton:not(.liked):hover {
   cursor: pointer;
-  filter: brightness(0.8); /* Example hover effect */
+  filter: brightness(0.8);
 }
 
 .gallery__likeButton:hover .gallery__likeButton-image {
-  content: url("../images/Like_Button_hover.svg"); /* Replace with the path to your hover image */
+  content: url("../images/Like_Button_hover.svg");
   cursor: pointer;
+}
+
+@media screen and (max-width: 900px) {
+  .gallery {
+    grid-template-columns: repeat(1, 282px);
+    justify-content: center;
+  }
 }
