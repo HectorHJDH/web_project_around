@@ -33,7 +33,7 @@
 }
 
 .close__button:hover .close__button-image {
-  content: url("../images/Close_Icon_hover.png"); /* Replace with your hover image path */
+  content: url("../images/Close_Icon_hover.png");
 }
 
 .profile__edit-form {
