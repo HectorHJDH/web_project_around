@@ -1,6 +1,6 @@
 // Busquemos el formulario en el DOM
 let formElement = document.querySelector(".form");
-let closeButton = document.querySelector(".close__button");
+const closeButton = document.querySelector(".close__button");
 let editButton = document.querySelector(".profile__edit-button");
 let submitButton = document.querySelector(".profile__form-submit");
 let nameValue = document.querySelector(".profile__name");

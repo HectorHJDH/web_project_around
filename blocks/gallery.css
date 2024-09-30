@@ -68,6 +68,13 @@
 
 @media screen and (max-width: 900px) {
   .gallery {
+    grid-template-columns: repeat(2, 282px);
+    justify-content: center;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .gallery {
     grid-template-columns: repeat(1, 282px);
     justify-content: center;
   }
