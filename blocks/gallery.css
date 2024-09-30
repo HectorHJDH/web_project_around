@@ -70,6 +70,15 @@
   .gallery {
     grid-template-columns: repeat(2, 282px);
     justify-content: center;
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .gallery {
+    grid-template-columns: repeat(1, 282px);
+    justify-content: center;
+    width: 100%;
   }
 }
 
@@ -77,5 +86,6 @@
   .gallery {
     grid-template-columns: repeat(1, 282px);
     justify-content: center;
+    width: 100%;
   }
 }

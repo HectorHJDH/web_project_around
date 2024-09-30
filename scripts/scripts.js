@@ -1,12 +1,12 @@
 // Busquemos el formulario en el DOM
-let formElement = document.querySelector(".form");
+const formElement = document.querySelector(".form");
 const closeButton = document.querySelector(".close__button");
-let editButton = document.querySelector(".profile__edit-button");
-let submitButton = document.querySelector(".profile__form-submit");
-let nameValue = document.querySelector(".profile__name");
-let dedicationValue = document.querySelector(".profile__dedication");
-let nameInput = document.querySelector("#name");
-let dedicationInput = document.querySelector("#dedication");
+const editButton = document.querySelector(".profile__edit-button");
+const submitButton = document.querySelector(".profile__form-submit");
+const nameValue = document.querySelector(".profile__name");
+const dedicationValue = document.querySelector(".profile__dedication");
+const nameInput = document.querySelector("#name");
+const dedicationInput = document.querySelector("#dedication");
 
 const likeButtons = document.querySelectorAll(".gallery__likeButton");
 
