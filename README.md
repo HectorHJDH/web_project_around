@@ -4,6 +4,10 @@
 
 Proyecto en el cual de creo la primera pagina con javascript en el curso para modificar el DOM.
 
+## Vista Previa
+
+![Preview](./images/web_around_project.png)
+
 ## Tecnologías
 
 - HTML
