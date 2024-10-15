@@ -1,4 +1,3 @@
-// Busquemos el formulario en el DOM
 // profile__form
 const profileFormElement = document.querySelector(".profile__form");
 const closeButtonProfile = profileFormElement.querySelector(".close__button");
@@ -18,9 +17,8 @@ const closeButtonCreatePlace =
 const submitButtonCreatePlace = createPlaceFormElement.querySelector(
   ".profile__form-submit"
 );
-const nameInputPlace = createPlaceFormElement.querySelector("#name");
-const dedicationInputPlace =
-  createPlaceFormElement.querySelector("#dedication");
+const nameInputPlace = createPlaceFormElement.querySelector("#place-title");
+const dedicationInputPlace = createPlaceFormElement.querySelector("#place-URL");
 const createPlaceButton = document.querySelector(".createPlace__button");
 
 // Formulario del perfil
@@ -45,8 +43,8 @@ function handleCreatePlaceFormSubmit(evt) {
 
   if (placeTitle && placeImageUrl) {
     const newCard = createCard({ name: placeTitle, link: placeImageUrl });
-
     galleryContainer.appendChild(newCard);
+    addClickEventToImage(newCard);
 
     createPlaceFormElement.style.display = "none";
     resetCreatePlaceForm();
@@ -117,6 +115,44 @@ closeButtonCreatePlace.addEventListener("click", () => {
   createPlaceFormElement.style.display = "none";
 });
 
+// Click en una imagen
+const imgPreviewElement = document.querySelector(".image__view");
+const previewImg = document.querySelector(".image__view-img");
+const closePreview = document.querySelector(".image__viewButton");
+const previewTitle = document.querySelector(".image__view-title");
+
+function openModal(imageSrc, imageTitle) {
+  previewImg.src = imageSrc;
+  previewTitle.textContent = imageTitle;
+  imgPreviewElement.style.display = "flex";
+}
+
+function closeModalFunction() {
+  imgPreviewElement.style.display = "none";
+}
+
+closePreview.addEventListener("click", closeModalFunction);
+
+imgPreviewElement.addEventListener("click", (e) => {
+  if (e.target === imgPreviewElement) {
+    closeModalFunction();
+  }
+});
+
+function addClickEventToImage(cardElement) {
+  const image = cardElement.querySelector(".gallery__image");
+  if (image) {
+    image.addEventListener("click", () => {
+      const imageTitle = image.alt;
+      openModal(image.src, imageTitle);
+    });
+  }
+}
+
+const galleryCards = document.querySelectorAll(".gallery__box");
+galleryCards.forEach(addClickEventToImage);
+
+// Tarjetas iniciales
 const initialCards = [
   {
     name: "Valle de Yosemite",
@@ -146,6 +182,7 @@ const initialCards = [
 
 const galleryContainer = document.querySelector(".gallery");
 
+// Crear una tarjeta
 function createCard(card) {
   const galleryBox = document.createElement("div");
   galleryBox.classList.add("gallery__box");
@@ -194,4 +231,5 @@ function createCard(card) {
 initialCards.forEach((card) => {
   const cardElement = createCard(card);
   galleryContainer.appendChild(cardElement);
+  addClickEventToImage(cardElement);
 });

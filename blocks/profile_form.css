@@ -83,7 +83,7 @@
 }
 
 @media screen and (max-width: 900px) {
-  .form {
+  .profile__form {
     top: 17%;
     height: 322px;
     width: 282px;

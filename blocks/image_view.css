@@ -1,0 +1,58 @@
+.image__view {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  justify-content: center;
+  align-items: center;
+}
+
+.image__view-order {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.image__view-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.image__view-img {
+  max-width: 75vw;
+  max-height: 75vh;
+  position: relative;
+}
+
+.image__viewButton {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: -45px;
+  cursor: pointer;
+  background: url("../images/Close_Icon.png") no-repeat center;
+  background-size: contain;
+  width: 40px;
+  height: 40px;
+  z-index: 15;
+  margin: 0 0 0 10px;
+  border: none;
+}
+
+.image__viewButton:hover {
+  opacity: 0.6;
+}
+
+.image__view-title {
+  color: white;
+  font-size: 0.75rem;
+  margin: 10px 0 0 0;
+  font-family: "Inter";
+}
