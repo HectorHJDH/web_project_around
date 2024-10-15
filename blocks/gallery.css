@@ -64,9 +64,9 @@
 }
 
 .gallery__likeButton:hover {
-  background-image: url("../images/Like_Button_hover.svg");
   cursor: pointer;
   z-index: 1;
+  opacity: 0.6;
 }
 
 .gallery__likeButton_active {

@@ -35,29 +35,27 @@
   margin: 0 18px 0 0;
 }
 
-.profile__edit-button {
+.profile__editButton {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 24px;
   width: 24px;
-  all: unset;
+  background: url("../images/Edit_Button.png") no-repeat;
   object-fit: cover;
+  margin: 0;
+  padding: 12.2px;
 }
 
-.profile__edit-button-image {
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: cover;
+.profile__editButton:hover {
+  cursor: pointer;
+  transition: ease 0.2s;
+  z-index: 1;
+  opacity: 0.6;
 }
 
-.profile__edit-button:hover .profile__edit-button-image {
-  content: url("../images/Edit_Button_hover.png");
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  box-sizing: border-box;
+.profile__editButton:hover {
+  cursor: pointer;
 }
 
 .profile__dedication {
@@ -75,25 +73,14 @@
   color: #ffffff;
   height: 50px;
   width: 150px;
-}
-
-.add__button-image {
-  width: 24px;
-  height: 24px;
-}
-
-.add__button:hover .add__button-image {
-  content: url("../images/Add_Button_hover.png");
+  background: url("../images/Add_Button.png") no-repeat center center;
+  background-size: auto;
 }
 
 .add__button:hover {
   cursor: pointer;
-  border: solid 2px #999999;
   transition: ease 0.2s;
-}
-
-.profile__edit-button:hover {
-  cursor: pointer;
+  opacity: 0.6;
 }
 
 @media screen and (max-width: 900px) {
@@ -126,12 +113,6 @@
   .profile__name {
     font-size: 1.375rem;
     margin: 0;
-  }
-
-  .profile__edit-button-image {
-    margin: 0;
-    width: 18px;
-    height: 18px;
   }
 
   .profile__dedication {

@@ -1,14 +1,12 @@
 // Busquemos el formulario en el DOM
 const formElement = document.querySelector(".form");
 const closeButton = document.querySelector(".close__button");
-const editButton = document.querySelector(".profile__edit-button");
+const editButton = document.querySelector(".profile__editButton");
 const submitButton = document.querySelector(".profile__form-submit");
 const nameValue = document.querySelector(".profile__name");
 const dedicationValue = document.querySelector(".profile__dedication");
 const nameInput = document.querySelector("#name");
 const dedicationInput = document.querySelector("#dedication");
-
-const likeButtons = document.querySelectorAll(".gallery__likeButton");
 
 // Función que maneja la entrega del formulario
 function handleProfileFormSubmit(evt) {
