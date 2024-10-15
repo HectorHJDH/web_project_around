@@ -57,19 +57,6 @@ closeButton.addEventListener("click", () => {
   formElement.style.display = "none";
 });
 
-// Cambia la imagen de like en cada botón
-likeButtons.forEach((button) => {
-  button.addEventListener("click", function () {
-    const image = button.querySelector(".gallery__likeButton-image");
-
-    if (image.src.includes("Like_Button.svg")) {
-      image.src = "./images/Like_Button_active.png";
-    } else {
-      image.src = "./images/Like_Button.svg";
-    }
-  });
-});
-
 const initialCards = [
   {
     name: "Valle de Yosemite",
@@ -126,13 +113,11 @@ function createCard(card) {
   const likeButton = document.createElement("button");
   likeButton.classList.add("gallery__likeButton");
 
-  const likeImg = document.createElement("img");
-  likeImg.classList.add("gallery__likeButton-image");
-  likeImg.src = "./images/Like_Button.svg";
-  likeImg.alt = "Like button";
+  likeButton.addEventListener("click", function () {
+    likeButton.classList.toggle("gallery__likeButton_active");
+  });
 
   deleteButton.appendChild(deleteImg);
-  likeButton.appendChild(likeImg);
   galleryContainerDiv.appendChild(galleryTitle);
   galleryContainerDiv.appendChild(likeButton);
   galleryBox.appendChild(deleteButton);
