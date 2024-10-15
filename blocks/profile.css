@@ -89,6 +89,7 @@
 .add__button:hover {
   cursor: pointer;
   border: solid 2px #999999;
+  transition: ease 0.2s;
 }
 
 .profile__edit-button:hover {

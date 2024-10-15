@@ -7,6 +7,7 @@
 }
 
 .gallery__box {
+  position: relative;
   display: flex;
   flex-direction: column;
   border-radius: 10px;
@@ -15,6 +16,16 @@
   background-color: #ffffff;
   color: #000000;
   gap: 0;
+}
+
+.gallery__deleteButton {
+  position: absolute;
+  top: 18px;
+  right: 15px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 1;
 }
 
 .gallery__image {
