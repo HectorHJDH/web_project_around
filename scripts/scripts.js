@@ -1,58 +1,120 @@
 // Busquemos el formulario en el DOM
-const formElement = document.querySelector(".form");
-const closeButton = document.querySelector(".close__button");
-const editButton = document.querySelector(".profile__editButton");
-const submitButton = document.querySelector(".profile__form-submit");
-const nameValue = document.querySelector(".profile__name");
-const dedicationValue = document.querySelector(".profile__dedication");
-const nameInput = document.querySelector("#name");
-const dedicationInput = document.querySelector("#dedication");
+// profile__form
+const profileFormElement = document.querySelector(".profile__form");
+const closeButtonProfile = profileFormElement.querySelector(".close__button");
+const editButtonProfile = document.querySelector(".profile__editButton");
+const submitButtonProfile = profileFormElement.querySelector(
+  ".profile__form-submit"
+);
+const nameValueProfile = document.querySelector(".profile__name");
+const dedicationValueProfile = document.querySelector(".profile__dedication");
+const nameInputProfile = profileFormElement.querySelector("#name");
+const dedicationInputProfile = profileFormElement.querySelector("#dedication");
 
-// Función que maneja la entrega del formulario
+// createPlace__form
+const createPlaceFormElement = document.querySelector(".createPlace__form");
+const closeButtonCreatePlace =
+  createPlaceFormElement.querySelector(".close__button");
+const submitButtonCreatePlace = createPlaceFormElement.querySelector(
+  ".profile__form-submit"
+);
+const nameInputPlace = createPlaceFormElement.querySelector("#name");
+const dedicationInputPlace =
+  createPlaceFormElement.querySelector("#dedication");
+const createPlaceButton = document.querySelector(".createPlace__button");
+
+// Formulario del perfil
 function handleProfileFormSubmit(evt) {
   evt.preventDefault();
 
-  nameValue.textContent = nameInput.value;
-  dedicationValue.textContent = dedicationInput.value;
+  nameValueProfile.textContent = nameInputProfile.value;
+  dedicationValueProfile.textContent = dedicationInputProfile.value;
 
-  console.log(nameValue.textContent);
-  console.log(dedicationValue.textContent);
+  console.log(nameValueProfile.textContent);
+  console.log(dedicationValueProfile.textContent);
 
-  formElement.style.display = "none";
+  profileFormElement.style.display = "none";
 }
 
-// Habilitar o deshabilitar el botón de submit
-function checkFormInputs() {
-  const nameVal = nameInput.value.trim();
-  const dedicationVal = dedicationInput.value.trim();
+// Formulario de crear un lugar
+function handleCreatePlaceFormSubmit(evt) {
+  evt.preventDefault();
 
-  if (nameVal !== "" && dedicationVal !== "") {
-    submitButton.classList.add("enabled");
-    submitButton.removeAttribute("disabled");
-  } else {
-    submitButton.classList.remove("enabled");
-    submitButton.setAttribute("disabled", true);
+  const placeTitle = nameInputPlace.value;
+  const placeImageUrl = dedicationInputPlace.value;
+
+  if (placeTitle && placeImageUrl) {
+    const newCard = createCard({ name: placeTitle, link: placeImageUrl });
+
+    galleryContainer.appendChild(newCard);
+
+    createPlaceFormElement.style.display = "none";
+    resetCreatePlaceForm();
   }
 }
 
-// Función para restablecer los campos del formulario
-function resetForm() {
-  nameInput.value = "";
-  dedicationInput.value = "";
-  submitButton.setAttribute("disabled", true); // Desactiva el botón de guardar al abrir el formulario
+function checkFormInputsProfile() {
+  const nameVal = nameInputProfile.value.trim();
+  const dedicationVal = dedicationInputProfile.value.trim();
+
+  if (nameVal !== "" && dedicationVal !== "") {
+    submitButtonProfile.classList.add("enabled");
+    submitButtonProfile.removeAttribute("disabled");
+  } else {
+    submitButtonProfile.classList.remove("enabled");
+    submitButtonProfile.setAttribute("disabled", true);
+  }
 }
 
-nameInput.addEventListener("input", checkFormInputs);
-dedicationInput.addEventListener("input", checkFormInputs);
-formElement.addEventListener("submit", handleProfileFormSubmit);
+function checkFormInputsPlace() {
+  const nameVal = nameInputPlace.value.trim();
+  const dedicationVal = dedicationInputPlace.value.trim();
 
-editButton.addEventListener("click", () => {
-  formElement.style.display = "block";
-  resetForm();
+  if (nameVal !== "" && dedicationVal !== "") {
+    submitButtonCreatePlace.classList.add("enabled");
+    submitButtonCreatePlace.removeAttribute("disabled");
+  } else {
+    submitButtonCreatePlace.classList.remove("enabled");
+    submitButtonCreatePlace.setAttribute("disabled", true);
+  }
+}
+
+function resetProfileForm() {
+  nameInputProfile.value = "";
+  dedicationInputProfile.value = "";
+  submitButtonProfile.setAttribute("disabled", true);
+}
+
+function resetCreatePlaceForm() {
+  nameInputPlace.value = "";
+  dedicationInputPlace.value = "";
+  submitButtonCreatePlace.setAttribute("disabled", true);
+}
+
+nameInputProfile.addEventListener("input", checkFormInputsProfile);
+dedicationInputProfile.addEventListener("input", checkFormInputsProfile);
+profileFormElement.addEventListener("submit", handleProfileFormSubmit);
+
+editButtonProfile.addEventListener("click", () => {
+  profileFormElement.style.display = "block";
+  resetProfileForm();
 });
 
-closeButton.addEventListener("click", () => {
-  formElement.style.display = "none";
+closeButtonProfile.addEventListener("click", () => {
+  profileFormElement.style.display = "none";
+});
+
+nameInputPlace.addEventListener("input", checkFormInputsPlace);
+dedicationInputPlace.addEventListener("input", checkFormInputsPlace);
+createPlaceFormElement.addEventListener("submit", handleCreatePlaceFormSubmit);
+
+createPlaceButton.addEventListener("click", () => {
+  createPlaceFormElement.style.display = "block";
+  resetCreatePlaceForm();
+});
+
+closeButtonCreatePlace.addEventListener("click", () => {
+  createPlaceFormElement.style.display = "none";
 });
 
 const initialCards = [

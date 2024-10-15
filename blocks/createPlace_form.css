@@ -1,4 +1,4 @@
-.form {
+.createPlace__form {
   position: absolute;
   font-family: "Inter";
   top: 15%;
@@ -32,7 +32,7 @@
   opacity: 0.6;
 }
 
-.profile__edit-form {
+.place__form {
   display: flex;
   flex-direction: column;
   background-color: #ffffff;
@@ -89,7 +89,7 @@
     width: 282px;
   }
 
-  .profile__edit-form {
+  .place__form {
     padding: 22px;
   }
 
