@@ -1,4 +1,4 @@
-// profile__form
+// profile__form --------------------------------------------------------
 const profileFormBackground = document.querySelector(".profile__background");
 const profileFormElement = document.querySelector(".profile__form");
 const closeButtonProfile = profileFormElement.querySelector(
@@ -13,7 +13,10 @@ const dedicationValueProfile = document.querySelector(".profile__dedication");
 const nameInputProfile = profileFormElement.querySelector("#name");
 const dedicationInputProfile = profileFormElement.querySelector("#dedication");
 
-// createPlace__form
+// createPlace__form --------------------------------------------------------
+const createPlaceFormBackground = document.querySelector(
+  ".createPlace__background"
+);
 const createPlaceFormElement = document.querySelector(".createPlace__form");
 const closeButtonCreatePlace = createPlaceFormElement.querySelector(
   ".createPlace__button-close"
@@ -25,7 +28,7 @@ const nameInputPlace = createPlaceFormElement.querySelector("#place-title");
 const dedicationInputPlace = createPlaceFormElement.querySelector("#place-URL");
 const createPlaceButton = document.querySelector(".createPlace__button");
 
-// Formulario del perfil
+// Formulario del perfil --------------------------------------------------------
 function handleProfileFormSubmit(evt) {
   evt.preventDefault();
 
@@ -36,7 +39,7 @@ function handleProfileFormSubmit(evt) {
   console.log(dedicationValueProfile.textContent);
 
   profileFormElement.style.display = "none";
-  document.querySelector(".profile__background").style.display = "none";
+  profileFormBackground.style.display = "none";
 }
 
 // Formulario de crear un lugar
@@ -52,6 +55,7 @@ function handleCreatePlaceFormSubmit(evt) {
     addClickEventToImage(newCard);
 
     createPlaceFormElement.style.display = "none";
+    createPlaceFormBackground.style.display = "none";
     resetCreatePlaceForm();
   }
 }
@@ -122,11 +126,20 @@ createPlaceFormElement.addEventListener("submit", handleCreatePlaceFormSubmit);
 
 createPlaceButton.addEventListener("click", () => {
   createPlaceFormElement.style.display = "block";
+  createPlaceFormBackground.style.display = "flex";
   resetCreatePlaceForm();
 });
 
 closeButtonCreatePlace.addEventListener("click", () => {
   createPlaceFormElement.style.display = "none";
+  createPlaceFormBackground.style.display = "none";
+});
+
+createPlaceFormBackground.addEventListener("click", (event) => {
+  // Check if the click is outside the form
+  if (event.target === createPlaceFormBackground) {
+    createPlaceFormBackground.style.display = "none"; // Hide the background and form
+  }
 });
 
 // Click en una imagen
