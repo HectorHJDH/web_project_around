@@ -1,6 +1,9 @@
 // profile__form
+const profileFormBackground = document.querySelector(".profile__background");
 const profileFormElement = document.querySelector(".profile__form");
-const closeButtonProfile = profileFormElement.querySelector(".close__button");
+const closeButtonProfile = profileFormElement.querySelector(
+  ".profile__button-close"
+);
 const editButtonProfile = document.querySelector(".profile__editButton");
 const submitButtonProfile = profileFormElement.querySelector(
   ".profile__form-submit"
@@ -12,10 +15,11 @@ const dedicationInputProfile = profileFormElement.querySelector("#dedication");
 
 // createPlace__form
 const createPlaceFormElement = document.querySelector(".createPlace__form");
-const closeButtonCreatePlace =
-  createPlaceFormElement.querySelector(".close__button");
+const closeButtonCreatePlace = createPlaceFormElement.querySelector(
+  ".createPlace__button-close"
+);
 const submitButtonCreatePlace = createPlaceFormElement.querySelector(
-  ".profile__form-submit"
+  ".createPlace__form-submit"
 );
 const nameInputPlace = createPlaceFormElement.querySelector("#place-title");
 const dedicationInputPlace = createPlaceFormElement.querySelector("#place-URL");
@@ -32,6 +36,7 @@ function handleProfileFormSubmit(evt) {
   console.log(dedicationValueProfile.textContent);
 
   profileFormElement.style.display = "none";
+  document.querySelector(".profile__background").style.display = "none";
 }
 
 // Formulario de crear un lugar
@@ -95,11 +100,20 @@ profileFormElement.addEventListener("submit", handleProfileFormSubmit);
 
 editButtonProfile.addEventListener("click", () => {
   profileFormElement.style.display = "block";
+  profileFormBackground.style.display = "flex";
   resetProfileForm();
 });
 
 closeButtonProfile.addEventListener("click", () => {
   profileFormElement.style.display = "none";
+  profileFormBackground.style.display = "none";
+});
+
+profileFormBackground.addEventListener("click", (event) => {
+  // Check if the click is outside the form
+  if (event.target === profileFormBackground) {
+    profileFormBackground.style.display = "none"; // Hide the background and form
+  }
 });
 
 nameInputPlace.addEventListener("input", checkFormInputsPlace);

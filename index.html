@@ -46,50 +46,52 @@
           </div>
         </div>
 
-        <section class="profile__form">
-          <div class="form__container">
-            <button class="close__button"></button>
-            <form class="profile__edit-form">
-              <h3 class="form__title">Editar Perfil</h3>
-              <input
-                type="text"
-                id="name"
-                class="profile__form-input"
-                placeholder="Nombre"
-              />
-              <input
-                type="text"
-                id="dedication"
-                class="profile__form-input"
-                placeholder="Acerca de mi"
-              />
+        <div class="profile__background">
+          <section class="profile__form">
+            <button class="profile__button-close"></button>
+            <div class="form__container">
+              <form class="profile__edit-form">
+                <h3 class="form__title">Editar Perfil</h3>
+                <input
+                  type="text"
+                  id="name"
+                  class="profile__form-input"
+                  placeholder="Nombre"
+                />
+                <input
+                  type="text"
+                  id="dedication"
+                  class="profile__form-input"
+                  placeholder="Acerca de mi"
+                />
 
-              <button type="submit" class="profile__form-submit">
-                Guardar
-              </button>
-            </form>
-          </div>
-        </section>
+                <button type="submit" class="profile__form-submit">
+                  Guardar
+                </button>
+              </form>
+            </div>
+          </section>
+        </div>
 
         <section class="createPlace__form">
           <div class="form__container">
-            <button class="close__button"></button>
+            <button class="createPlace__button-close"></button>
             <form class="place__form">
               <h3 class="form__title">Nuevo Lugar</h3>
               <input
                 type="text"
                 id="place-title"
-                class="profile__form-input"
+                class="createPlace__form-input"
                 placeholder="Título"
               />
               <input
                 type="text"
                 id="place-URL"
-                class="profile__form-input"
+                class="createPlace__form-input"
                 placeholder="Enlace a la imagen"
               />
 
-              <button type="submit" class="profile__form-submit">
+              <button type="submit" class="createPlace__form-submit">
                 Guardar
               </button>
             </form>
