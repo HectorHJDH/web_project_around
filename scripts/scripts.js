@@ -42,7 +42,14 @@ function handleProfileFormSubmit(evt) {
   profileFormBackground.style.display = "none";
 }
 
-// Formulario de crear un lugar
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    profileFormElement.style.display = "none"; // Hide the profile form
+    profileFormBackground.style.display = "none"; // Hide the background
+  }
+});
+
+// Formulario de crear un lugar --------------------------------------------------------
 function handleCreatePlaceFormSubmit(evt) {
   evt.preventDefault();
 
@@ -60,6 +67,14 @@ function handleCreatePlaceFormSubmit(evt) {
   }
 }
 
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    createPlaceFormElement.style.display = "none"; // Hide the profile form
+    createPlaceFormBackground.style.display = "none"; // Hide the background
+  }
+});
+
+// Validación de el formulario profile --------------------------------------------------------
 function checkFormInputsProfile() {
   const nameVal = nameInputProfile.value.trim();
   const dedicationVal = dedicationInputProfile.value.trim();
@@ -73,6 +88,7 @@ function checkFormInputsProfile() {
   }
 }
 
+// Validación de el formulario createPlace --------------------------------------------------------
 function checkFormInputsPlace() {
   const nameVal = nameInputPlace.value.trim();
   const dedicationVal = dedicationInputPlace.value.trim();
@@ -86,6 +102,7 @@ function checkFormInputsPlace() {
   }
 }
 
+// Resetear los formularios --------------------------------------------------------
 function resetProfileForm() {
   nameInputProfile.value = "";
   dedicationInputProfile.value = "";
@@ -98,6 +115,7 @@ function resetCreatePlaceForm() {
   submitButtonCreatePlace.setAttribute("disabled", true);
 }
 
+// Eventos profile --------------------------------------------------------
 nameInputProfile.addEventListener("input", checkFormInputsProfile);
 dedicationInputProfile.addEventListener("input", checkFormInputsProfile);
 profileFormElement.addEventListener("submit", handleProfileFormSubmit);
@@ -120,6 +138,7 @@ profileFormBackground.addEventListener("click", (event) => {
   }
 });
 
+// Eventos createPlace --------------------------------------------------------
 nameInputPlace.addEventListener("input", checkFormInputsPlace);
 dedicationInputPlace.addEventListener("input", checkFormInputsPlace);
 createPlaceFormElement.addEventListener("submit", handleCreatePlaceFormSubmit);
@@ -142,7 +161,7 @@ createPlaceFormBackground.addEventListener("click", (event) => {
   }
 });
 
-// Click en una imagen
+// Click en una imagen --------------------------------------------------------
 const imgPreviewElement = document.querySelector(".image__view");
 const previewImg = document.querySelector(".image__view-img");
 const closePreview = document.querySelector(".image__viewButton");
