@@ -1,4 +1,4 @@
-// profile__form --------------------------------------------------------
+// profile__form variables
 const profileFormBackground = document.querySelector(".profile__background");
 const profileFormElement = document.querySelector(".profile__form");
 const closeButtonProfile = profileFormElement.querySelector(
@@ -15,7 +15,12 @@ const profileForm = document.forms.profileF;
 const profileName = profileForm.elements.name;
 const profileDedication = profileForm.elements.dedication;
 
-// createPlace__form --------------------------------------------------------
+const profileNameError = document.getElementById("profile-name-error");
+const profileDedicationError = document.getElementById(
+  "profile-dedication-error"
+);
+
+// createPlace__form variables
 const createPlaceFormBackground = document.querySelector(
   ".createPlace__background"
 );
@@ -29,10 +34,13 @@ const submitButtonCreatePlace = createPlaceFormElement.querySelector(
 const createPlaceButton = document.querySelector(".createPlace__button");
 
 const createPlaceForm = document.forms.createPlaceF;
-const nameInputPlace = createPlaceForm.elements.placeTitle;
-const dedicationInputPlace = createPlaceForm.elements.placeURL;
+const placeTitleInput = createPlaceForm.elements.placeTitle;
+const placeUTLInput = createPlaceForm.elements.placeURL;
 
-// Formulario del perfil --------------------------------------------------------
+const placeTitleError = document.getElementById("createPlace-title-error");
+const placeURLError = document.getElementById("createPlace-url-error");
+
+// Formulario de modificar datos del perfil
 function handleProfileFormSubmit(evt) {
   evt.preventDefault();
 
@@ -43,12 +51,12 @@ function handleProfileFormSubmit(evt) {
   profileFormBackground.style.display = "none";
 }
 
-// Formulario de crear un lugar --------------------------------------------------------
+// Formulario de crear un lugar
 function handleCreatePlaceFormSubmit(evt) {
   evt.preventDefault();
 
-  const placeTitle = nameInputPlace.value;
-  const placeImageUrl = dedicationInputPlace.value;
+  const placeTitle = placeTitleInput.value;
+  const placeImageUrl = placeUTLInput.value;
 
   if (placeTitle && placeImageUrl) {
     const newCard = createCard({ name: placeTitle, link: placeImageUrl });
@@ -61,7 +69,7 @@ function handleCreatePlaceFormSubmit(evt) {
   }
 }
 
-// Cerrar los formularios con la tecla "Escape" --------------------------------------------------------
+// Cerrar los formularios con la tecla "Escape"
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") {
     profileFormElement.style.display = "none";
@@ -71,12 +79,100 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
-// Validación de el formulario profile --------------------------------------------------------
+// Validacion input de nombre de autor
+function validateProfileName() {
+  if (!profileName.validity.valid) {
+    profileNameError.textContent = profileName.validationMessage;
+    profileNameError.style.display = "block";
+  } else {
+    profileNameError.textContent = "";
+    profileNameError.style.display = "none";
+  }
+
+  submitButtonProfile.disabled = !profileFormElement.checkValidity();
+}
+
+// Validacion input de dedication
+function validateProfileDedication() {
+  if (!profileDedication.validity.valid) {
+    profileDedicationError.textContent = profileDedication.validationMessage;
+    profileDedicationError.style.display = "block";
+  } else {
+    profileDedicationError.textContent = "";
+    profileDedicationError.style.display = "none";
+  }
+
+  submitButtonProfile.disabled = !profileFormElement.checkValidity();
+}
+
+// Validacion input de titulo del lugar a crear
+function validateCreatePlaceTitle() {
+  if (!placeTitleInput.validity.valid) {
+    placeTitleError.textContent = placeTitleInput.validationMessage;
+    placeTitleError.style.display = "block";
+  } else {
+    placeTitleError.textContent = "";
+    placeTitleError.style.display = "none";
+  }
+
+  submitButtonCreatePlace.disabled = !createPlaceFormElement.checkValidity();
+}
+
+// Validacion input de URL
+function validateCreatePlaceURL() {
+  if (!placeUTLInput.validity.valid) {
+    placeURLError.textContent = placeUTLInput.validationMessage;
+    placeURLError.style.display = "block";
+  } else {
+    placeURLError.textContent = "";
+    placeURLError.style.display = "none";
+  }
+
+  submitButtonCreatePlace.disabled = !createPlaceFormElement.checkValidity();
+}
+
+// Eventos para validar los inputs del formulario de perfil en tiempo real
+profileName.addEventListener("input", validateProfileName);
+profileDedication.addEventListener("input", validateProfileDedication);
+
+// Eventos para validar los inputs del formulario de crear lugar en tiempo real
+placeTitleInput.addEventListener("input", validateCreatePlaceTitle);
+placeUTLInput.addEventListener("input", validateCreatePlaceURL);
+
+// Validacion final al enviar el formulario de perfil
+profileFormElement.addEventListener("submit", (e) => {
+  validateProfileName();
+  validateProfileDedication();
+
+  if (!profileFormElement.checkValidity()) {
+    e.preventDefault();
+  }
+});
+
+// Validacion final al enviar el formulario de crear lugar
+createPlaceFormElement.addEventListener("submit", (e) => {
+  validateCreatePlaceTitle();
+  validateCreatePlaceURL();
+
+  if (!createPlaceFormElement.checkValidity()) {
+    e.preventDefault();
+  }
+});
+
+// Validacion del formulario de perfil
 function checkFormInputsProfile() {
   const nameVal = profileName.value.trim();
   const dedicationVal = profileDedication.value.trim();
 
-  if (nameVal !== "" && dedicationVal !== "") {
+  // Verificar que el nombre esté entre 2 y 40 caracteres
+  const isNameValid = nameVal.length >= 2 && nameVal.length <= 40;
+
+  // Verificar que la dedicación esté entre 2 y 200 caracteres
+  const isDedicationValid =
+    dedicationVal.length >= 2 && dedicationVal.length <= 200;
+
+  // Habilitar o deshabilitar el botón de guardar
+  if (isNameValid && isDedicationValid) {
     submitButtonProfile.classList.add("enabled");
     submitButtonProfile.removeAttribute("disabled");
   } else {
@@ -85,12 +181,21 @@ function checkFormInputsProfile() {
   }
 }
 
-// Validación de el formulario createPlace --------------------------------------------------------
+// Validacion de el formulario createPlace
 function checkFormInputsPlace() {
-  const nameVal = nameInputPlace.value.trim();
-  const dedicationVal = dedicationInputPlace.value.trim();
+  const titleVal = placeTitleInput.value.trim();
+  const URLVal = placeUTLInput.value.trim();
 
-  if (nameVal !== "" && dedicationVal !== "") {
+  // Verificar que el título esté entre 2 y 30 caracteres
+  const isTitleValid = titleVal.length >= 2 && titleVal.length <= 30;
+
+  // Regex para manejar URLs
+  const urlPattern =
+    /^(https?:\/\/)?(www\.)?[\w\-]+(\.[\w\-]+)+([\/?=&%:.~\w\-]*)?$/i;
+  const isUrlValid = urlPattern.test(URLVal);
+
+  // Habilitar o deshabilitar el botón de guardar
+  if (isTitleValid && isUrlValid) {
     submitButtonCreatePlace.classList.add("enabled");
     submitButtonCreatePlace.removeAttribute("disabled");
   } else {
@@ -99,23 +204,22 @@ function checkFormInputsPlace() {
   }
 }
 
-// Resetear los formularios --------------------------------------------------------
+// Resetear los formularios
 function resetForms() {
-  // Reset profile form inputs and disable submit button
+  // Reset a inputs y boton del form de perfil
   profileName.value = "";
   profileDedication.value = "";
   submitButtonProfile.disabled = true;
   submitButtonProfile.classList.remove("enabled");
 
-  // Reset place creation form inputs and disable submit button
-  nameInputPlace.value = "";
-  dedicationInputPlace.value = "";
+  // Reset a inputs y boton del form de crear lugar
+  placeTitleInput.value = "";
+  placeUTLInput.value = "";
   submitButtonCreatePlace.disabled = true;
   submitButtonCreatePlace.classList.remove("enabled");
 }
 
-// Eventos profile --------------------------------------------------------
-
+// Eventos profile
 profileName.addEventListener("input", checkFormInputsProfile);
 profileDedication.addEventListener("input", checkFormInputsProfile);
 profileFormElement.addEventListener("submit", handleProfileFormSubmit);
@@ -132,15 +236,14 @@ closeButtonProfile.addEventListener("click", () => {
 });
 
 profileFormBackground.addEventListener("click", (event) => {
-  // Check if the click is outside the form
   if (event.target === profileFormBackground) {
-    profileFormBackground.style.display = "none"; // Hide the background and form
+    profileFormBackground.style.display = "none";
   }
 });
 
-// Eventos createPlace --------------------------------------------------------
-nameInputPlace.addEventListener("input", checkFormInputsPlace);
-dedicationInputPlace.addEventListener("input", checkFormInputsPlace);
+// Eventos createPlace
+placeTitleInput.addEventListener("input", checkFormInputsPlace);
+placeUTLInput.addEventListener("input", checkFormInputsPlace);
 createPlaceFormElement.addEventListener("submit", handleCreatePlaceFormSubmit);
 
 createPlaceButton.addEventListener("click", () => {
@@ -155,13 +258,12 @@ closeButtonCreatePlace.addEventListener("click", () => {
 });
 
 createPlaceFormBackground.addEventListener("click", (event) => {
-  // Check if the click is outside the form
   if (event.target === createPlaceFormBackground) {
-    createPlaceFormBackground.style.display = "none"; // Hide the background and form
+    createPlaceFormBackground.style.display = "none";
   }
 });
 
-// Click en una imagen --------------------------------------------------------
+// Click en una imagen
 const imgPreviewElement = document.querySelector(".image__view");
 const previewImg = document.querySelector(".image__view-img");
 const closePreview = document.querySelector(".image__viewButton");

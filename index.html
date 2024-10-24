@@ -52,24 +52,40 @@
             <div class="form__container">
               <form class="profile__edit-form" name="profileF">
                 <h3 class="form__title">Editar Perfil</h3>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  class="profile__form-input"
-                  placeholder="Nombre"
-                  minlength="2"
-                  maxlength="40"
-                />
-                <input
-                  type="text"
-                  id="dedication"
-                  name="dedication"
-                  class="profile__form-input"
-                  placeholder="Acerca de mi"
-                  minlength="2"
-                  maxlength="200"
-                />
+
+                <div class="profile__input-wrapper">
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    class="profile__form-input"
+                    placeholder="Nombre"
+                    minlength="2"
+                    maxlength="40"
+                    required
+                  />
+                  <span class="profile__error-message" id="profile-name-error"
+                    >Error message</span
+                  >
+                </div>
+
+                <div class="profile__input-wrapper">
+                  <input
+                    type="text"
+                    id="dedication"
+                    name="dedication"
+                    class="profile__form-input"
+                    placeholder="Acerca de mi"
+                    minlength="2"
+                    maxlength="200"
+                    required
+                  />
+                  <span
+                    class="profile__error-message"
+                    id="profile-dedication-error"
+                    >Error message</span
+                  >
+                </div>
 
                 <button disabled type="submit" class="profile__form-submit">
                   Guardar
@@ -85,23 +101,38 @@
               <button class="createPlace__button-close"></button>
               <form class="place__form" name="createPlaceF">
                 <h3 class="form__title">Nuevo Lugar</h3>
-                <input
-                  type="text"
-                  id="place-title"
-                  name="placeTitle"
-                  class="createPlace__form-input"
-                  placeholder="Título"
-                  minlength="2"
-                  maxlength="30"
-                />
-                <input
-                  type="url"
-                  id="place-URL"
-                  name="placeURL"
-                  class="createPlace__form-input"
-                  placeholder="Enlace a la imagen"
-                  minlength="2"
-                />
+
+                <div class="createPlace__input-wrapper">
+                  <input
+                    type="text"
+                    id="place-title"
+                    name="placeTitle"
+                    class="createPlace__form-input"
+                    placeholder="Título"
+                    minlength="2"
+                    maxlength="30"
+                    required
+                  />
+                  <span
+                    class="createPlace__error-message"
+                    id="createPlace-title-error"
+                  ></span>
+                </div>
+
+                <div class="createPlace__input-wrapper">
+                  <input
+                    type="url"
+                    id="place-URL"
+                    name="placeURL"
+                    class="createPlace__form-input"
+                    placeholder="Enlace a la imagen"
+                    required
+                  />
+                  <span
+                    class="createPlace__error-message"
+                    id="createPlace-url-error"
+                  ></span>
+                </div>
 
                 <button dis type="submit" class="createPlace__form-submit">
                   Guardar
