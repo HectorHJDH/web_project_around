@@ -25,7 +25,7 @@
               class="profile__picture"
               alt="profile picture"
             />
-            <div class="profile__container">
+            <div class="profile__container" id="profile-data">
               <div class="profile__container profile__content">
                 <h2 class="profile__content profile__name">Jacques Costeau</h2>
                 <button class="profile__content profile__editButton"></button>
@@ -50,11 +50,12 @@
           <section class="profile__form">
             <button class="profile__button-close"></button>
             <div class="form__container">
-              <form class="profile__edit-form">
+              <form class="profile__edit-form" name="profileF">
                 <h3 class="form__title">Editar Perfil</h3>
                 <input
                   type="text"
                   id="name"
+                  name="name"
                   class="profile__form-input"
                   placeholder="Nombre"
                   minlength="2"
@@ -63,13 +64,14 @@
                 <input
                   type="text"
                   id="dedication"
+                  name="dedication"
                   class="profile__form-input"
                   placeholder="Acerca de mi"
                   minlength="2"
                   maxlength="200"
                 />
 
-                <button type="submit" class="profile__form-submit">
+                <button disabled type="submit" class="profile__form-submit">
                   Guardar
                 </button>
               </form>
@@ -81,11 +83,12 @@
           <section class="createPlace__form">
             <div class="form__container">
               <button class="createPlace__button-close"></button>
-              <form class="place__form">
+              <form class="place__form" name="createPlaceF">
                 <h3 class="form__title">Nuevo Lugar</h3>
                 <input
                   type="text"
                   id="place-title"
+                  name="placeTitle"
                   class="createPlace__form-input"
                   placeholder="Título"
                   minlength="2"
@@ -94,12 +97,13 @@
                 <input
                   type="url"
                   id="place-URL"
+                  name="placeURL"
                   class="createPlace__form-input"
                   placeholder="Enlace a la imagen"
                   minlength="2"
                 />
 
-                <button type="submit" class="createPlace__form-submit">
+                <button dis type="submit" class="createPlace__form-submit">
                   Guardar
                 </button>
               </form>
