@@ -89,7 +89,7 @@ function validateProfileName() {
     profileNameError.style.display = "none";
   }
 
-  submitButtonProfile.disabled = !profileFormElement.checkValidity();
+  submitButtonProfile.disabled = !profileForm.checkValidity();
 }
 
 // Validacion input de dedication
@@ -102,7 +102,7 @@ function validateProfileDedication() {
     profileDedicationError.style.display = "none";
   }
 
-  submitButtonProfile.disabled = !profileFormElement.checkValidity();
+  submitButtonProfile.disabled = !profileForm.checkValidity();
 }
 
 // Validacion input de titulo del lugar a crear
@@ -115,7 +115,7 @@ function validateCreatePlaceTitle() {
     placeTitleError.style.display = "none";
   }
 
-  submitButtonCreatePlace.disabled = !createPlaceFormElement.checkValidity();
+  submitButtonCreatePlace.disabled = !createPlaceForm.checkValidity();
 }
 
 // Validacion input de URL
@@ -128,7 +128,7 @@ function validateCreatePlaceURL() {
     placeURLError.style.display = "none";
   }
 
-  submitButtonCreatePlace.disabled = !createPlaceFormElement.checkValidity();
+  submitButtonCreatePlace.disabled = !createPlaceForm.checkValidity();
 }
 
 // Eventos para validar los inputs del formulario de perfil en tiempo real
@@ -144,7 +144,7 @@ profileFormElement.addEventListener("submit", (e) => {
   validateProfileName();
   validateProfileDedication();
 
-  if (!profileFormElement.checkValidity()) {
+  if (!profileForm.checkValidity()) {
     e.preventDefault();
   }
 });
@@ -154,7 +154,7 @@ createPlaceFormElement.addEventListener("submit", (e) => {
   validateCreatePlaceTitle();
   validateCreatePlaceURL();
 
-  if (!createPlaceFormElement.checkValidity()) {
+  if (!createPlaceForm.checkValidity()) {
     e.preventDefault();
   }
 });
