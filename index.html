@@ -142,13 +142,25 @@
           </section>
         </div>
 
-        <section class="gallery"></section>
+        <section class="gallery">
+          <template id="card__area">
+            <div class="card">
+              <button class="card__delete-icon"></button>
+              <img src="" alt="" class="card__image" />
+              <div class="card__menu">
+                <h2 class="card__title"></h2>
+
+                <button class="card__like"></button>
+              </div>
+            </div>
+          </template>
+        </section>
       </main>
 
       <footer class="footer">
         <p class="footer__copyright">© 2024 Around The U.S.</p>
       </footer>
     </div>
-    <script src="./scripts/scripts.js"></script>
+    <script src="./scripts/index.js" type="module"></script>
   </body>
 </html>

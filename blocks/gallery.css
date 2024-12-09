@@ -6,7 +6,21 @@
   width: 880px;
 }
 
-.gallery__box {
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  width: 282px;
+  height: 361px;
+  background-color: #ffffff;
+  color: #000000;
+  overflow: visible;
+  gap: 0;
+}
+
+.gallery__box,
+.card__area {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -18,17 +32,24 @@
   gap: 0;
 }
 
-.gallery__deleteButton {
+.gallery__deleteButton,
+.card__delete-icon {
   position: absolute;
   top: 18px;
   right: 15px;
-  background: none;
+  background: url("../images/Trash.svg") no-repeat center;
+  background-size: cover;
+  height: 19px;
+  width: 21px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  z-index: 10;
   border: none;
-  cursor: pointer;
-  z-index: 1;
+  margin: 10;
 }
 
-.gallery__image {
+.gallery__image,
+.card__image {
   border-radius: 10px 10px 0 0;
   width: 100%;
   height: 282px;
@@ -36,7 +57,8 @@
   margin: 0;
 }
 
-.gallery__container {
+.gallery__container,
+.card__menu {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -45,13 +67,15 @@
   margin: 0 18px 0 21px;
 }
 
-.gallery__title {
+.gallery__title,
+.card__title {
   font-family: "Inter-bold";
   font-size: 1.5rem;
   margin: 0;
 }
 
-.gallery__likeButton {
+.gallery__likeButton,
+.card__like {
   display: flex;
   align-items: center;
   height: 19px;
@@ -63,17 +87,25 @@
   cursor: pointer;
 }
 
-.gallery__likeButton:hover {
+.gallery__likeButton:hover,
+.card__like:hover {
   cursor: pointer;
   z-index: 1;
   opacity: 0.6;
 }
 
-.gallery__likeButton_active {
+.gallery__likeButton_active,
+.card__like_active {
   background-image: url("../images/Like_Button_active.svg");
   cursor: pointer;
   z-index: 2;
   opacity: 1;
+}
+
+.card__delete-icon:hover {
+  cursor: pointer;
+  z-index: 1;
+  opacity: 0.6;
 }
 
 @media screen and (max-width: 900px) {
