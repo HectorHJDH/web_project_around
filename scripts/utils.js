@@ -79,7 +79,7 @@ export function handleCreatePlaceFormSubmit(evt) {
 
   if (placeTitle && placeImageUrl) {
     const newCard = createCard({ name: placeTitle, link: placeImageUrl });
-    galleryContainer.appendChild(newCard);
+    galleryContainer.prepend(newCard);
     addClickEventToImage(newCard);
     createPlaceFormElement.style.display = "none";
     createPlaceFormBackground.style.display = "none";
