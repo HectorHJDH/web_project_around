@@ -1,10 +1,7 @@
-// Crea la clase FormValidator, que establece la configuración para validar los campos del
-// formulario de acuerdo con los siguientes requisitos.
 export class FormValidator {
-  // Objeto de configuración con selectores y clases.
   constructor(config, formElement) {
     this._config = config;
-    this._formElement = formElement;
+    this._formElement = formElement; // El form ya está identificado, no hay que seleccionarlo de nuevo
     this._inputList = Array.from(
       this._formElement.querySelectorAll(this._config.inputSelector)
     );
@@ -13,7 +10,6 @@ export class FormValidator {
     );
   }
 
-  // Método para mostrar mensajes de error en cada input.
   _showInputError(inputElement) {
     const errorElement = this._formElement.querySelector(
       `#${inputElement.id}-error`
@@ -23,17 +19,22 @@ export class FormValidator {
     errorElement.style.display = "block";
   }
 
-  // Método para ocultar los mensajes de error.
   _hideInputError(inputElement) {
-    const errorElement = this._formElement.querySelector(
-      `#${inputElement.id}-error`
-    );
+    const errorElement = document.querySelector(`#${inputElement.id}-error`); // ✅ Genera el ID de forma dinámica
+
+    if (errorElement) {
+      errorElement.textContent = "";
+      errorElement.classList.remove(this._config.inputErrorClass);
+      errorElement.style.display = "none";
+    } else {
+      console.warn(
+        `No se encontró el elemento de error para el input: ${inputElement.id}`
+      );
+    }
+
     inputElement.classList.remove(this._config.inputErrorClass);
-    errorElement.textContent = "";
-    errorElement.style.display = "none";
   }
 
-  // Verifica si el input es válido y decide si mostrar o no el mensaje de error.
   _checkInputValidity(inputElement) {
     if (!inputElement.validity.valid) {
       this._showInputError(inputElement);
@@ -42,7 +43,6 @@ export class FormValidator {
     }
   }
 
-  // Alterna el estado del botón de envío dependiendo de la validez del formulario.
   _toggleButtonState() {
     const isFormValid = this._inputList.every(
       (inputElement) => inputElement.validity.valid
@@ -56,7 +56,6 @@ export class FormValidator {
     }
   }
 
-  // Establece los controladores de eventos para los inputs y el botón.
   _setEventListeners() {
     this._toggleButtonState();
     this._inputList.forEach((inputElement) => {
@@ -67,9 +66,12 @@ export class FormValidator {
     });
   }
 
-  // Método público que activa la validación del formulario.
   enableValidation() {
-    this._formElement.addEventListener("submit", (evt) => evt.preventDefault());
+    this._formElement.addEventListener("submit", (evt) => {
+      if (!this._formElement.checkValidity()) {
+        evt.preventDefault();
+      }
+    });
     this._setEventListeners();
   }
 }

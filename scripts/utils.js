@@ -87,49 +87,117 @@ export function handleCreatePlaceFormSubmit(evt) {
   }
 }
 
-// Validación de inputs para nombre y dedicación
-export function validateProfileName() {
-  if (!profileName.validity.valid) {
-    profileNameError.textContent = profileName.validationMessage;
-    profileNameError.style.display = "block";
-  } else {
-    profileNameError.textContent = "";
-    profileNameError.style.display = "none";
+export function validateProfileName(event) {
+  const inputElement = event?.target;
+
+  if (!inputElement || !inputElement.id) {
+    return; // Evita continuar si no hay input o no tiene ID
   }
-  submitButtonProfile.disabled = !profileForm.checkValidity();
+
+  // Selecciona el contenedor de error dinámicamente
+  const errorElement = document.querySelector(`#${inputElement.id}-error`);
+
+  if (!errorElement) {
+    return; // Evita continuar si no hay elemento de error
+  }
+
+  // Si el usuario está escribiendo pero aún no ha terminado (input) y el campo tiene algo, no mostramos el error
+  if (inputElement.value.length > 0 && !inputElement.validity.valid) {
+    errorElement.textContent = "El campo no es válido"; // Mensaje de error
+    errorElement.style.display = "block"; // Mostrar error
+  } else if (inputElement.value.length === 0) {
+    errorElement.textContent = ""; // Limpia mensaje de error si el campo está vacío
+    errorElement.style.display = "none"; // Ocultar error
+  } else {
+    errorElement.textContent = ""; // Limpia mensaje de error si la entrada es válida
+    errorElement.style.display = "none"; // Ocultar error
+  }
 }
 
-export function validateProfileDedication() {
-  if (!profileDedication.validity.valid) {
-    profileDedicationError.textContent = profileDedication.validationMessage;
-    profileDedicationError.style.display = "block";
-  } else {
-    profileDedicationError.textContent = "";
-    profileDedicationError.style.display = "none";
+export function validateProfileDedication(event) {
+  const inputElement = event?.target;
+
+  if (!inputElement || !inputElement.id) {
+    return; // Evita continuar si no hay input o no tiene ID
   }
-  submitButtonProfile.disabled = !profileForm.checkValidity();
+
+  // Selecciona el contenedor de error dinámicamente
+  const errorElement = document.querySelector(`#${inputElement.id}-error`);
+
+  if (!errorElement) {
+    return; // Evita continuar si no hay elemento de error
+  }
+
+  if (inputElement.validity.valid) {
+    errorElement.textContent = ""; // Limpiar mensaje de error
+    errorElement.style.display = "none"; // Ocultar error
+  } else {
+    errorElement.textContent = "El campo no es válido"; // Mensaje de error
+    errorElement.style.display = "block"; // Mostrar error
+  }
 }
 
-// Validación de inputs del formulario de crear lugar
-export function validateCreatePlaceTitle() {
-  if (!placeTitleInput.validity.valid) {
-    placeTitleError.textContent = placeTitleInput.validationMessage;
-    placeTitleError.style.display = "block";
-  } else {
-    placeTitleError.textContent = "";
-    placeTitleError.style.display = "none";
+// Asignación del evento
+const inputElement = document.getElementById("dedication");
+inputElement.addEventListener("input", validateProfileDedication);
+
+export function validateCreatePlaceTitle(event) {
+  const inputElement = event?.target;
+
+  if (!inputElement || !inputElement.id) {
+    return; // Evita continuar si no hay input o no tiene ID
   }
+
+  // Selecciona el contenedor de error dinámicamente
+  const errorElement = document.querySelector(`#${inputElement.id}-error`);
+
+  if (!errorElement) {
+    return; // Evita continuar si no hay elemento de error
+  }
+
+  if (inputElement.validity.valid) {
+    errorElement.textContent = ""; // Limpia mensaje de error
+    errorElement.style.display = "none"; // Oculta error
+  } else {
+    errorElement.textContent = inputElement.validationMessage; // Muestra el mensaje de error nativo
+    errorElement.style.display = "block"; // Muestra error
+  }
+
+  // Deshabilita el botón de enviar si el formulario no es válido
+  const createPlaceForm = document.querySelector("#createPlace__form");
+  const submitButtonCreatePlace = createPlaceForm.querySelector(
+    ".createPlace__form-submit"
+  );
   submitButtonCreatePlace.disabled = !createPlaceForm.checkValidity();
 }
 
-export function validateCreatePlaceURL() {
-  if (!placeUTLInput.validity.valid) {
-    placeURLError.textContent = placeUTLInput.validationMessage;
-    placeURLError.style.display = "block";
-  } else {
-    placeURLError.textContent = "";
-    placeURLError.style.display = "none";
+export function validateCreatePlaceURL(event) {
+  const inputElement = event?.target;
+
+  if (!inputElement || !inputElement.id) {
+    return; // Evita continuar si no hay input o no tiene ID
   }
+
+  // Selecciona el contenedor de error dinámicamente
+  const errorElement = document.querySelector(`#${inputElement.id}-error`);
+
+  if (!errorElement) {
+    return; // Evita continuar si no hay elemento de error
+  }
+
+  if (inputElement.validity.valid) {
+    errorElement.textContent = ""; // Limpia mensaje de error
+    errorElement.style.display = "none"; // Oculta error
+  } else {
+    errorElement.textContent = inputElement.validationMessage; // Muestra el mensaje de error nativo
+    errorElement.style.display = "block"; // Muestra error
+  }
+
+  // Deshabilita el botón de enviar si el formulario no es válido
+  const createPlaceForm = document.querySelector("#createPlace__form");
+  const submitButtonCreatePlace = createPlaceForm.querySelector(
+    ".createPlace__form-submit"
+  );
   submitButtonCreatePlace.disabled = !createPlaceForm.checkValidity();
 }
 
@@ -192,7 +260,7 @@ export function closeModalFunction() {
   imgPreviewElement.style.display = "none";
 }
 
-// Agregar evento de clic en la imagen de la tarjeta
+// Agregar evento de clic para agrandar la imagen de la tarjeta
 export function addClickEventToImage(cardElement) {
   const image = cardElement.querySelector(".card__image");
   const text = cardElement.querySelector(".card__title");

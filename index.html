@@ -50,7 +50,11 @@
           <section class="profile__form">
             <button class="profile__button-close"></button>
             <div class="form__container">
-              <form class="profile__edit-form" name="profileF">
+              <form
+                id="profile__form"
+                class="profile__edit-form"
+                name="profileF"
+              >
                 <h3 class="form__title">Editar Perfil</h3>
 
                 <div class="profile__input-wrapper">
@@ -64,7 +68,7 @@
                     maxlength="40"
                     required
                   />
-                  <span class="profile__error-message" id="profile-name-error"
+                  <span class="profile__error-message" id="name-error"
                     >Error message</span
                   >
                 </div>
@@ -80,9 +84,7 @@
                     maxlength="200"
                     required
                   />
-                  <span
-                    class="profile__error-message"
-                    id="profile-dedication-error"
+                  <span class="profile__error-message" id="dedication-error"
                     >Error message</span
                   >
                 </div>
@@ -99,7 +101,11 @@
           <section class="createPlace__form">
             <div class="form__container">
               <button class="createPlace__button-close"></button>
-              <form class="place__form" name="createPlaceF">
+              <form
+                id="createPlace__form"
+                class="place__form"
+                name="createPlaceF"
+              >
                 <h3 class="form__title">Nuevo Lugar</h3>
 
                 <div class="createPlace__input-wrapper">
@@ -115,7 +121,7 @@
                   />
                   <span
                     class="createPlace__error-message"
-                    id="createPlace-title-error"
+                    id="place-title-error"
                   ></span>
                 </div>
 
@@ -130,7 +136,7 @@
                   />
                   <span
                     class="createPlace__error-message"
-                    id="createPlace-url-error"
+                    id="place-URL-error"
                   ></span>
                 </div>
 

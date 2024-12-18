@@ -1,4 +1,5 @@
 import Card from "./Card.js";
+import { FormValidator } from "./FormValidator.js";
 import {
   handleCreatePlaceFormSubmit,
   handleProfileFormSubmit,
@@ -17,6 +18,10 @@ import {
 // profile__form variables
 const profileFormBackground = document.querySelector(".profile__background");
 const profileFormElement = document.querySelector(".profile__form");
+
+const profileFormElementId = document.getElementById("profile__form");
+const createPlaceFormElementId = document.getElementById("createPlace__form");
+
 const closeButtonProfile = profileFormElement.querySelector(
   ".profile__button-close"
 );
@@ -36,6 +41,7 @@ const closeButtonCreatePlace = createPlaceFormElement.querySelector(
 );
 
 const createPlaceButton = document.querySelector(".createPlace__button");
+const createPlaceId = document.querySelector("#createPlace__form");
 
 const createPlaceForm = document.forms.createPlaceF;
 const placeTitleInput = createPlaceForm.elements.placeTitle;
@@ -146,10 +152,35 @@ const galleryCards = document.querySelectorAll(".card__area");
 initialCards.forEach((card) => {
   const cardElement = new Card(card);
   const cardCreation = cardElement.getCard();
-  // console.log(cardCreation);
-  // console.log(card);
 
   galleryContainer.appendChild(cardCreation);
   addClickEventToImage(cardCreation);
   // return cardCreation;
 });
+
+// Validación del formulario de perfil
+const profileFormValidator = new FormValidator(
+  {
+    inputSelector: ".profile__form-input",
+    submitButtonSelector: ".profile__form-submit",
+    inputErrorClass: "form__input_type_error",
+    activeButtonClass: "form__button_active",
+    inactiveButtonClass: "form__button_inactive",
+  },
+  profileFormElementId
+);
+
+// Validación del formulario de crear lugar
+const cardFormValidator = new FormValidator(
+  {
+    inputSelector: ".createPlace__form-input",
+    submitButtonSelector: ".createPlace__form-submit",
+    inputErrorClass: "form__input_type_error",
+    activeButtonClass: "form__button_active",
+    inactiveButtonClass: "form__button_inactive",
+  },
+  createPlaceFormElementId
+);
+
+profileFormValidator.enableValidation();
+cardFormValidator.enableValidation();
