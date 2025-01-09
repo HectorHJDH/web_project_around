@@ -1,5 +1,6 @@
 import Card from "./Card.js";
 import { FormValidator } from "./FormValidator.js";
+import Section from "./Section.js";
 import {
   handleCreatePlaceFormSubmit,
   handleProfileFormSubmit,
@@ -148,6 +149,20 @@ imgPreviewElement.addEventListener("click", (e) => {
 
 const galleryCards = document.querySelectorAll(".card__area");
 // galleryCards.forEach(addClickEventToImage);
+
+const cardList = new Section(
+  {
+    items: initialCards,
+    renderer: (item) => {
+      const cardElement = new Card(item);
+      const cardCreation = cardElement.getCard();
+
+      cardList.addItem(cardCreation);
+      addClickEventToImage(cardCreation);
+    },
+  },
+  ".gallery"
+);
 
 initialCards.forEach((card) => {
   const cardElement = new Card(card);
