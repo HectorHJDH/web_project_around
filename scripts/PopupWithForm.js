@@ -3,6 +3,7 @@ import Popup from "./Popup.js";
 export default class PopupWithForm extends Popup {
   constructor(selector, handleSubmit) {
     super(selector);
+    this.selector = selector;
     this._handleSubmit = handleSubmit;
   }
 
@@ -17,32 +18,62 @@ export default class PopupWithForm extends Popup {
     return this._formValues;
   }
 
+  open() {
+    super.open();
+  }
+  // crear constante que apunte al popup
   close() {
     super.close();
-    const form = this._popup.querySelector(".popup__form");
+    const form = document.querySelector("#createPlace__form");
     if (form) {
+      document.querySelector(".createPlace__form-submit").disabled = true;
+      console.log(
+        "Botón deshabilitado:",
+        document.querySelector(".createPlace__form-submit")
+      );
+
+      document
+        .querySelector(".createPlace__form-submit")
+        .classList.remove("form__button_active");
       form.reset();
     }
 
-    // Limpia mensajes de error si los hubiera
     const errorMessages = this._popup.querySelectorAll(".popup__error");
     errorMessages.forEach((error) => (error.textContent = ""));
   }
 
   setEventListeners() {
     super.setEventListeners();
+    const editButtonProfile = document.querySelector(".profile__editButton");
+
+    if (editButtonProfile) {
+      editButtonProfile.removeEventListener("click", this._handleOpen);
+      editButtonProfile.addEventListener("click", () => this._handleOpen());
+    }
+
     const form = this._popup.querySelector(".popup__form");
 
     if (form) {
-      form.addEventListener("submit", (evt) => {
-        evt.preventDefault();
-        try {
-          this._handleSubmit(this._getInputValues());
-          this.close();
-        } catch (error) {
-          console.error("Error al manejar el formulario:", error);
-        }
-      });
+      form.removeEventListener("submit", (evt) => this._handleSubmitForm(evt));
+      form.addEventListener("submit", (evt) => this._handleSubmitForm(evt));
+    }
+  }
+
+  // Creamos métodos para reutilizar en removeEventListener
+  _handleOpen() {
+    console.log("Abriendo formulario");
+    this.open();
+  }
+
+  _handleSubmitForm(evt) {
+    evt.preventDefault();
+    try {
+      console.log("Procesando formulario...");
+      this._handleSubmit(this._getInputValues());
+      console.log("Formulario procesado correctamente, cerrando popup...");
+      this.close();
+    } catch (error) {
+      console.error("Error al manejar el formulario:", error);
     }
   }
 }

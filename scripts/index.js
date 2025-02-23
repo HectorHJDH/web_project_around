@@ -1,6 +1,9 @@
 import Card from "./Card.js";
 import { FormValidator } from "./FormValidator.js";
 import Section from "./Section.js";
+import PopupWithForm from "./PopupWithForm.js";
+import PopupWithImages from "./PopupWithImages.js";
+import UserInfo from "./UserInfo.js";
 import {
   handleCreatePlaceFormSubmit,
   handleProfileFormSubmit,
@@ -48,6 +51,8 @@ const createPlaceForm = document.forms.createPlaceF;
 const placeTitleInput = createPlaceForm.elements.placeTitle;
 const placeUTLInput = createPlaceForm.elements.placeURL;
 
+console.log(createPlaceForm.elements);
+
 const galleryContainer = document.querySelector(".gallery");
 
 // Cerrar los formularios con la tecla "Escape"
@@ -91,13 +96,12 @@ createPlaceFormElement.addEventListener("submit", (e) => {
 // Eventos profile
 profileName.addEventListener("input", checkFormInputsProfile);
 profileDedication.addEventListener("input", checkFormInputsProfile);
-profileFormElement.addEventListener("submit", handleProfileFormSubmit);
 
-editButtonProfile.addEventListener("click", () => {
-  profileFormElement.style.display = "block";
-  profileFormBackground.style.display = "flex";
-  resetForms();
-});
+//editButtonProfile.addEventListener("click", () => {
+//  profileFormElement.style.display = "block";
+//  profileFormBackground.style.display = "flex";
+//  resetForms();
+//});
 
 closeButtonProfile.addEventListener("click", () => {
   profileFormElement.style.display = "none";
@@ -111,8 +115,8 @@ profileFormBackground.addEventListener("click", (event) => {
 });
 
 // Eventos createPlace
-placeTitleInput.addEventListener("input", checkFormInputsPlace);
-placeUTLInput.addEventListener("input", checkFormInputsPlace);
+// placeTitleInput.addEventListener("input", checkFormInputsPlace);
+// placeUTLInput.addEventListener("input", checkFormInputsPlace);
 createPlaceFormElement.addEventListener("submit", handleCreatePlaceFormSubmit);
 
 createPlaceButton.addEventListener("click", () => {
@@ -150,18 +154,40 @@ imgPreviewElement.addEventListener("click", (e) => {
 const galleryCards = document.querySelectorAll(".card__area");
 // galleryCards.forEach(addClickEventToImage);
 
-const cardList = new Section(
+new Section(
   {
     items: initialCards,
     renderer: (item) => {
       const cardElement = new Card(item);
       const cardCreation = cardElement.getCard();
 
-      cardList.addItem(cardCreation);
       addClickEventToImage(cardCreation);
     },
   },
   ".gallery"
+).renderItems();
+
+const popupWithForm = new PopupWithForm(".popup", checkFormInputsProfile);
+
+const popupWithImage = new PopupWithImages(".image__view");
+
+const userInfo = new UserInfo({
+  nameSelector: "#place-title",
+  titleSelector: "#place-URL",
+});
+
+popupWithForm.setEventListeners();
+
+popupWithImage.setEventListeners();
+
+editButtonProfile.addEventListener("click", () => {
+  popupWithForm.open();
+});
+
+// userInfo.getUserInfo();
+profileFormElement.addEventListener(
+  "submit",
+  handleProfileFormSubmit(userInfo.setUserInfo)
 );
 
 initialCards.forEach((card) => {
@@ -182,9 +208,10 @@ const profileFormValidator = new FormValidator(
     activeButtonClass: "form__button_active",
     inactiveButtonClass: "form__button_inactive",
   },
-  profileFormElementId
+  profileFormElementId,
+  () => popupWithForm.close()
 );
-
+//createPlace__form-submit
 // Validación del formulario de crear lugar
 const cardFormValidator = new FormValidator(
   {
@@ -194,7 +221,8 @@ const cardFormValidator = new FormValidator(
     activeButtonClass: "form__button_active",
     inactiveButtonClass: "form__button_inactive",
   },
-  createPlaceFormElementId
+  createPlaceFormElementId,
+  () => popupWithForm.close()
 );
 
 profileFormValidator.enableValidation();

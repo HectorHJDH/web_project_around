@@ -15,13 +15,25 @@ export default class Popup {
   // Método público para abrir el popup
   open() {
     this._popup.classList.add("popup__open");
+    this._popup.style.display = "flex"; // 🔥 Forzar visibilidad en caso de que display: none siga activo
     document.addEventListener("keydown", this._handleEscClose);
   }
 
   // Método público para cerrar el popup
   close() {
+    console.log("Intentando cerrar el popup...");
+    console.log(
+      "Estado antes de cerrar:",
+      getComputedStyle(this._popup).display
+    );
+
     this._popup.classList.remove("popup__open");
-    document.removeEventListener("keydown", this._handleEscClose);
+    this._popup.style.display = "none";
+
+    console.log(
+      "Estado después de cerrar:",
+      getComputedStyle(this._popup).display
+    );
   }
 
   // Método privado para cerrar el popup al presionar Esc

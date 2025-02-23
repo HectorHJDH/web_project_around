@@ -62,14 +62,12 @@ export const initialCards = [
   },
 ];
 
-// Formulario de modificar datos del perfil
-export function handleProfileFormSubmit(evt) {
-  evt.preventDefault();
-  nameValueProfile.textContent = profileName.value;
-  dedicationValueProfile.textContent = profileDedication.value;
-  profileFormElement.style.display = "none";
-  profileFormBackground.style.display = "none";
-}
+// Formulario de editar datos de perfil
+export const handleProfileFormSubmit = (setUserInfo) => (event) => {
+  event.preventDefault();
+  setUserInfo({ name: profileName.value, title: profileDedication.value });
+  console.log("Profile form submitted");
+};
 
 // Formulario de crear un lugar
 export function handleCreatePlaceFormSubmit(evt) {
@@ -81,8 +79,8 @@ export function handleCreatePlaceFormSubmit(evt) {
     const newCard = createCard({ name: placeTitle, link: placeImageUrl });
     galleryContainer.prepend(newCard);
     addClickEventToImage(newCard);
-    createPlaceFormElement.style.display = "none";
-    createPlaceFormBackground.style.display = "none";
+    // createPlaceFormElement.style.display = "none";
+    // createPlaceFormBackground.style.display = "none";
     resetForms();
   }
 }

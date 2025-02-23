@@ -18,7 +18,12 @@ export default class UserInfo {
   }
 
   setUserInfo({ name, title }) {
-    this._nameElement.textContent = name;
-    this._titleElement.textContent = title;
+    const nameValueProfile = document.querySelector(".profile__name");
+    const dedicationValueProfile = document.querySelector(
+      ".profile__dedication"
+    );
+
+    nameValueProfile.textContent = name;
+    dedicationValueProfile.textContent = title;
   }
 }
