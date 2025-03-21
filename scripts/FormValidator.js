@@ -11,11 +11,9 @@ export class FormValidator {
     ); // Botón de envío del formulario
   }
 
-  /**
-   * Muestra un mensaje de error asociado a un input inválido
-   * @param {HTMLElement} inputElement - Campo de entrada que contiene un error
-   */
+  // Muestra un mensaje de error asociado a un input inválido
   _showInputError(inputElement) {
+    console.log("inputElement", inputElement);
     const errorElement = this._formElement.querySelector(
       `#${inputElement.id}-error`
     ); // Busca el elemento de error asociado al input
@@ -24,10 +22,7 @@ export class FormValidator {
     errorElement.style.display = "block"; // Asegura que el mensaje de error sea visible
   }
 
-  /**
-   * Oculta el mensaje de error de un input válido
-   * @param {HTMLElement} inputElement - Campo de entrada cuyo error debe ocultarse
-   */
+  // Oculta el mensaje de error de un input válido
   _hideInputError(inputElement) {
     const errorElement = document.querySelector(`#${inputElement.id}-error`);
 
@@ -44,10 +39,7 @@ export class FormValidator {
     inputElement.classList.remove(this._config.inputErrorClass); // Remueve la clase de error del input
   }
 
-  /**
-   * Verifica si un input es válido y muestra u oculta el mensaje de error según corresponda
-   * @param {HTMLElement} inputElement - Campo de entrada a validar
-   */
+  // Verifica si un input es válido y muestra u oculta el mensaje de error según corresponda
   _checkInputValidity(inputElement) {
     if (!inputElement.validity.valid) {
       this._showInputError(inputElement); // Muestra error si el input no es válido
@@ -56,9 +48,7 @@ export class FormValidator {
     }
   }
 
-  /**
-   * Habilita o deshabilita el botón de envío en función de la validez del formulario
-   */
+  // Habilita o deshabilita el botón de envío en función de la validez del formulario
   _toggleButtonState() {
     const isFormValid = this._inputList.every(
       (inputElement) => inputElement.validity.valid
@@ -74,9 +64,7 @@ export class FormValidator {
     }
   }
 
-  /**
-   * Agrega event listeners a los inputs para validar mientras el usuario escribe
-   */
+  // Agrega event listeners a los inputs para validar mientras el usuario escribe
   _setEventListeners() {
     this._toggleButtonState(); // Asegura que el estado del botón sea correcto desde el inicio
 
@@ -88,14 +76,12 @@ export class FormValidator {
     });
   }
 
-  /**
-   * Activa la validación del formulario, previniendo el envío si hay errores
-   */
+  // Activa la validación del formulario, previniendo el envío si hay errores
   enableValidation() {
     const popup = document.querySelector(".popup");
     this._formElement.addEventListener("submit", (evt) => {
       if (!this._formElement.checkValidity()) {
-        evt.preventDefault(); // Previene el envío si el formulario no es válido
+        evt.preventDefault();
         this._closePopup();
         //popup = document.querySelector(popupSelector);
         popup.classList.remove("popup__open");
@@ -103,11 +89,7 @@ export class FormValidator {
       }
     });
 
-    this._setEventListeners(); // Agrega los event listeners para la validación en tiempo real
+    // Agrega los event listeners para la validación en tiempo real
+    this._setEventListeners();
   }
 }
-
-// evt.preventDefault(); // Previene el envío si el formulario no es válido
-//         const popup = document.querySelector(".popup");
-//         popup.classList.remove("popup__open");
-//         popup.style.display = "none";

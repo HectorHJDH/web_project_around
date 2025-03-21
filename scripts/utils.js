@@ -1,40 +1,87 @@
-const profileFormElement = document.querySelector(".profile__form");
-const profileForm = document.forms.profileF;
-const profileName = profileForm.elements.name;
-const profileDedication = profileForm.elements.dedication;
-const nameValueProfile = document.querySelector(".profile__name");
-const dedicationValueProfile = document.querySelector(".profile__dedication");
+import Card from "./Card.js";
+import { api } from "./Api.js";
+import {
+  profileNameInput,
+  profileDedicationInput,
+  createPlaceTitleInput,
+  createPlaceUrlInput,
+} from "./index.js";
+import PopupWithConfirmation from "./PopupWithConfirmation.js";
+
+/************************ Elementos del Perfil *****************************/
+
 const profileFormBackground = document.querySelector(".profile__background");
-const submitButtonProfile = profileFormElement.querySelector(
+
+// Elemento seccion de perfil
+const profileFormElement = document.querySelector(".profile__form");
+
+// Botón de envío del formulario de perfil
+const profileSubmitButton = profileFormElement.querySelector(
   ".profile__form-submit"
 );
+
+// Input de dedication de perfil
+const profileInputElement = document.getElementById("dedication");
+
+/************************ Vista previa cards ********************************/
+
+// Contenedor de vista previa de imagen
 const imgPreviewElement = document.querySelector(".image__view");
+
+// Elemento imagen
 const previewImg = document.querySelector(".image__view-img");
+
+// Elemento título de la imagen
 const previewTitle = document.querySelector(".image__view-title");
+
+/************************ Input Errors ***************************************/
+
+// Elemento de error de nombre de perfil
 const profileNameError = document.getElementById("profile-name-error");
 
+// Elemento de error de dedicacion
 const profileDedicationError = document.getElementById(
   "profile-dedication-error"
 );
 
+/************************ Elementos de Imagen de Perfil ***********************/
+
+// Formulario de editar imagen de perfil
+const editProfileImgForm = document.querySelector(
+  ".editProfileImg__section form"
+);
+
+// Botón de envío del formulario de editar imagen de perfil
+const editProfileImgSubmitButton = document.querySelector(
+  ".editProfileImg__form-submit"
+);
+
+const editProfileImageArea = document.querySelector(".editProfileImgPopup");
+
+// Input de URL de imagen de perfil
+const editProfileImgURLInput = editProfileImgForm.elements.editProfileImgURL;
+
+/************************ Elementos de crear lugar ****************************/
+
+// Formulario de crear lugar
 const createPlaceFormElement = document.querySelector(".createPlace__form");
-const submitButtonCreatePlace = createPlaceFormElement.querySelector(
+
+// Botón de envío del formulario de crear lugar
+const createPlaceSubmitButton = createPlaceFormElement.querySelector(
   ".createPlace__form-submit"
 );
-const createPlaceFormBackground = document.querySelector(
+
+// Fondo del formulario de crear lugar
+const createPlaceBackground = document.querySelector(
   ".createPlace__background"
 );
 
-const placeTitleError = document.getElementById("createPlace-title-error");
-const placeURLError = document.getElementById("createPlace-url-error");
-
-const createPlaceForm = document.forms.createPlaceF;
-const placeTitleInput = createPlaceForm.elements.placeTitle;
-const placeUTLInput = createPlaceForm.elements.placeURL;
+/************************ Gallery de Imagenes *********************************/
 
 const galleryContainer = document.querySelector(".gallery");
 
-// Tarjetas iniciales
+/************************ Tarjetas Iniciales **********************************/
+
 export const initialCards = [
   {
     name: "Valle de Yosemite",
@@ -62,203 +109,213 @@ export const initialCards = [
   },
 ];
 
+/************************ Formulario Perfil ***********************************/
+
 // Formulario de editar datos de perfil
 export const handleProfileFormSubmit = (setUserInfo) => (event) => {
   event.preventDefault();
-  setUserInfo({ name: profileName.value, title: profileDedication.value });
-  console.log("Profile form submitted");
+  setUserInfo({
+    name: profileNameInput.value,
+    title: profileDedicationInput.value,
+  });
 };
 
-// Formulario de crear un lugar
-export function handleCreatePlaceFormSubmit(evt) {
-  evt.preventDefault();
-  const placeTitle = placeTitleInput.value;
-  const placeImageUrl = placeUTLInput.value;
+// Asignación del evento de validación al formulario de perfil
+profileInputElement.addEventListener("input", validateProfileForm);
 
-  if (placeTitle && placeImageUrl) {
-    const newCard = createCard({ name: placeTitle, link: placeImageUrl });
-    galleryContainer.prepend(newCard);
-    addClickEventToImage(newCard);
-    // createPlaceFormElement.style.display = "none";
-    // createPlaceFormBackground.style.display = "none";
-    resetForms();
-  }
-}
+/************************ Validaciones de los Inputs de Perfil **************/
 
-export function validateProfileName(event) {
+export function validateProfileForm(event) {
   const inputElement = event?.target;
 
   if (!inputElement || !inputElement.id) {
-    return; // Evita continuar si no hay input o no tiene ID
+    return;
   }
 
-  // Selecciona el contenedor de error dinámicamente
+  // Selecciona dinámicamente el mensaje de error
   const errorElement = document.querySelector(`#${inputElement.id}-error`);
 
-  if (!errorElement) {
-    return; // Evita continuar si no hay elemento de error
+  if (errorElement) {
+    if (inputElement.value.trim().length === 0) {
+      errorElement.textContent = ""; // Limpia el mensaje si el campo está vacío
+      errorElement.style.display = "none";
+    } else if (!inputElement.validity.valid) {
+      errorElement.textContent = "El campo no es válido";
+      errorElement.style.display = "block";
+    } else {
+      errorElement.textContent = "";
+      errorElement.style.display = "none";
+    }
   }
 
-  // Si el usuario está escribiendo pero aún no ha terminado (input) y el campo tiene algo, no mostramos el error
-  if (inputElement.value.length > 0 && !inputElement.validity.valid) {
-    errorElement.textContent = "El campo no es válido"; // Mensaje de error
-    errorElement.style.display = "block"; // Mostrar error
-  } else if (inputElement.value.length === 0) {
-    errorElement.textContent = ""; // Limpia mensaje de error si el campo está vacío
-    errorElement.style.display = "none"; // Ocultar error
-  } else {
-    errorElement.textContent = ""; // Limpia mensaje de error si la entrada es válida
-    errorElement.style.display = "none"; // Ocultar error
-  }
-}
-
-export function validateProfileDedication(event) {
-  const inputElement = event?.target;
-
-  if (!inputElement || !inputElement.id) {
-    return; // Evita continuar si no hay input o no tiene ID
-  }
-
-  // Selecciona el contenedor de error dinámicamente
-  const errorElement = document.querySelector(`#${inputElement.id}-error`);
-
-  if (!errorElement) {
-    return; // Evita continuar si no hay elemento de error
-  }
-
-  if (inputElement.validity.valid) {
-    errorElement.textContent = ""; // Limpiar mensaje de error
-    errorElement.style.display = "none"; // Ocultar error
-  } else {
-    errorElement.textContent = "El campo no es válido"; // Mensaje de error
-    errorElement.style.display = "block"; // Mostrar error
-  }
-}
-
-// Asignación del evento
-const inputElement = document.getElementById("dedication");
-inputElement.addEventListener("input", validateProfileDedication);
-
-export function validateCreatePlaceTitle(event) {
-  const inputElement = event?.target;
-
-  if (!inputElement || !inputElement.id) {
-    return; // Evita continuar si no hay input o no tiene ID
-  }
-
-  // Selecciona el contenedor de error dinámicamente
-  const errorElement = document.querySelector(`#${inputElement.id}-error`);
-
-  if (!errorElement) {
-    return; // Evita continuar si no hay elemento de error
-  }
-
-  if (inputElement.validity.valid) {
-    errorElement.textContent = ""; // Limpia mensaje de error
-    errorElement.style.display = "none"; // Oculta error
-  } else {
-    errorElement.textContent = inputElement.validationMessage; // Muestra el mensaje de error nativo
-    errorElement.style.display = "block"; // Muestra error
-  }
-
-  // Deshabilita el botón de enviar si el formulario no es válido
-  const createPlaceForm = document.querySelector("#createPlace__form");
-  const submitButtonCreatePlace = createPlaceForm.querySelector(
-    ".createPlace__form-submit"
-  );
-  submitButtonCreatePlace.disabled = !createPlaceForm.checkValidity();
-}
-
-export function validateCreatePlaceURL(event) {
-  const inputElement = event?.target;
-
-  if (!inputElement || !inputElement.id) {
-    return; // Evita continuar si no hay input o no tiene ID
-  }
-
-  // Selecciona el contenedor de error dinámicamente
-  const errorElement = document.querySelector(`#${inputElement.id}-error`);
-
-  if (!errorElement) {
-    return; // Evita continuar si no hay elemento de error
-  }
-
-  if (inputElement.validity.valid) {
-    errorElement.textContent = ""; // Limpia mensaje de error
-    errorElement.style.display = "none"; // Oculta error
-  } else {
-    errorElement.textContent = inputElement.validationMessage; // Muestra el mensaje de error nativo
-    errorElement.style.display = "block"; // Muestra error
-  }
-
-  // Deshabilita el botón de enviar si el formulario no es válido
-  const createPlaceForm = document.querySelector("#createPlace__form");
-  const submitButtonCreatePlace = createPlaceForm.querySelector(
-    ".createPlace__form-submit"
-  );
-  submitButtonCreatePlace.disabled = !createPlaceForm.checkValidity();
-}
-
-// Verificar la validez del formulario de perfil
-export function checkFormInputsProfile() {
-  const nameVal = profileName.value.trim();
-  const dedicationVal = profileDedication.value.trim();
+  // Validar todo el formulario para habilitar/deshabilitar el botón
+  const nameVal = profileNameInput.value.trim();
+  const dedicationVal = profileDedicationInput.value.trim();
   const isNameValid = nameVal.length >= 2 && nameVal.length <= 40;
   const isDedicationValid =
     dedicationVal.length >= 2 && dedicationVal.length <= 200;
 
   if (isNameValid && isDedicationValid) {
-    submitButtonProfile.classList.add("enabled");
-    submitButtonProfile.removeAttribute("disabled");
+    profileSubmitButton.classList.add("enabled");
+    profileSubmitButton.removeAttribute("disabled");
   } else {
-    submitButtonProfile.classList.remove("enabled");
-    submitButtonProfile.setAttribute("disabled", true);
+    profileSubmitButton.classList.remove("enabled");
+    profileSubmitButton.setAttribute("disabled", true);
   }
 }
 
-// Verificar la validez del formulario de creación de lugar
-export function checkFormInputsPlace() {
-  const titleVal = placeTitleInput.value.trim();
-  const URLVal = placeUTLInput.value.trim();
+/************************ Formulario cambiar imagen perfil ***********************/
+
+// Submit del formulario de cambiar imagen
+// export function handleUpdateProfileImage(evt) {
+//   evt.preventDefault();
+//   console.log("handleUpdateProfileImage");
+
+//   const imgURL = editProfileImgURLInput.value;
+//   const actualImg = document.querySelector(".profile__picture");
+
+//   if (imgURL) {
+//     api.editProfileImage({ avatar: imgURL });
+//     actualImg.src = imgURL;
+//     editProfileImgForm.reset();
+//     editProfileImageArea.style.display = "none";
+//   }
+// }
+export function handleUpdateProfileImage(evt) {
+  evt.preventDefault();
+  console.log("handleUpdateProfileImage");
+
+  const imgURL = editProfileImgURLInput.value.trim();
+  const actualImg = document.querySelector(".profile__picture");
+
+  // Expresión regular para validar URLs
+  const urlPattern =
+    /^(https?:\/\/)?(www\.)?[\w\-]+(\.[\w\-]+)+([\/?=&%:.~\w\-]*)?$/i;
+
+  if (!urlPattern.test(imgURL)) {
+    alert("Por favor, ingresa una URL válida de imagen.");
+    return;
+  }
+
+  api
+    .editProfileImage({ avatar: imgURL })
+    .then(() => {
+      actualImg.src = imgURL;
+      editProfileImgForm.reset();
+      editProfileImageArea.style.display = "none";
+    })
+    .catch((error) => {
+      console.error("Error al actualizar la imagen:", error);
+    });
+}
+
+/************************ Formulario crear lugar **********************************/
+const popupConfirmDelete = new PopupWithConfirmation(".deleteCard__background");
+
+// Formulario de crear un lugar
+export function handleCreatePlaceFormSubmit(evt) {
+  evt.preventDefault();
+  const placeTitle = createPlaceTitleInput.value;
+  const placeImageUrl = createPlaceUrlInput.value;
+
+  console.log("placeTitle", placeTitle);
+  console.log("placeImageUrl", placeImageUrl);
+
+  if (placeTitle && placeImageUrl) {
+    console.log("Creating new card...");
+    api.createCard({ name: placeTitle, link: placeImageUrl }).then((res) => {
+      console.log("res", res);
+      createCards(res);
+    });
+    resetForms();
+  }
+}
+
+/************************ Validaciones de los Inputs de Create Place **************/
+
+export function validateCreatePlaceForm(event) {
+  const inputElement = event?.target;
+
+  if (!inputElement || !inputElement.id) {
+    return;
+  }
+
+  // Selecciona el contenedor de error dinámicamente
+  const errorElement = document.querySelector(`#${inputElement.id}-error`);
+
+  if (errorElement) {
+    if (inputElement.validity.valid) {
+      errorElement.textContent = "";
+      errorElement.style.display = "none";
+    } else {
+      errorElement.textContent = inputElement.validationMessage;
+      errorElement.style.display = "block";
+    }
+  }
+
+  // Validar todo el formulario y habilitar/deshabilitar el botón de envío
+  const titleVal = createPlaceTitleInput.value.trim();
+  const URLVal = createPlaceUrlInput.value.trim();
   const isTitleValid = titleVal.length >= 2 && titleVal.length <= 30;
   const urlPattern =
     /^(https?:\/\/)?(www\.)?[\w\-]+(\.[\w\-]+)+([\/?=&%:.~\w\-]*)?$/i;
   const isUrlValid = urlPattern.test(URLVal);
 
   if (isTitleValid && isUrlValid) {
-    submitButtonCreatePlace.classList.add("enabled");
-    submitButtonCreatePlace.removeAttribute("disabled");
+    createPlaceSubmitButton.classList.add("enabled");
+    createPlaceSubmitButton.removeAttribute("disabled");
   } else {
-    submitButtonCreatePlace.classList.remove("enabled");
-    submitButtonCreatePlace.setAttribute("disabled", true);
+    createPlaceSubmitButton.classList.remove("enabled");
+    createPlaceSubmitButton.setAttribute("disabled", true);
   }
 }
 
-// Resetear los formularios
-export function resetForms() {
-  profileName.value = "";
-  profileDedication.value = "";
-  submitButtonProfile.setAttribute("disabled", true);
-  submitButtonProfile.classList.remove("enabled");
-
-  placeTitleInput.value = "";
-  placeUTLInput.value = "";
-  submitButtonCreatePlace.setAttribute("disabled", true);
-  submitButtonCreatePlace.classList.remove("enabled");
+/************************ Validaciones de la URL de la Imagen de Perfil **************/
+export function checkEditProfileImg() {
+  // e.preventDefault();
+  // console.log("event", e.preventDefault());
+  // const URLVal = editProfileImgURLInput.value.trim();
+  // const urlPattern =
+  //   /^(https?:\/\/)?(www\.)?[\w\-]+(\.[\w\-]+)+([\/?=&%:.~\w\-]*)?$/i;
+  // const isUrlValid = urlPattern.test(URLVal);
+  // if (isUrlValid) {
+  //   editProfileImgSubmitButton.classList.add("enabled");
+  //   editProfileImgSubmitButton.removeAttribute("disabled");
+  // } else {
+  //   editProfileImgSubmitButton.classList.remove("enabled");
+  //   editProfileImgSubmitButton.setAttribute("disabled", true);
+  // }
 }
 
-// Modal para previsualización de imágenes
+/************************ Resetear los formularios ***********************************/
+//
+export function resetForms() {
+  profileNameInput.value = "";
+  profileDedicationInput.value = "";
+  profileSubmitButton.setAttribute("disabled", true);
+  profileSubmitButton.classList.remove("enabled");
+
+  createPlaceTitleInput.value = "";
+  createPlaceUrlInput.value = "";
+  createPlaceSubmitButton.setAttribute("disabled", true);
+  createPlaceSubmitButton.classList.remove("enabled");
+}
+
+/************************ Vista ampliada de Imagen ****************************/
+
+// Abrir imagen ampliada
 export function openModal(imageSrc, imageTitle) {
   previewImg.src = imageSrc;
   previewTitle.textContent = imageTitle;
   imgPreviewElement.style.display = "flex";
 }
 
+// Cerrar imagen ampliada
 export function closeModalFunction() {
   imgPreviewElement.style.display = "none";
 }
 
-// Agregar evento de clic para agrandar la imagen de la tarjeta
+// Evento para agrandar la imagen
 export function addClickEventToImage(cardElement) {
   const image = cardElement.querySelector(".card__image");
   const text = cardElement.querySelector(".card__title");
@@ -270,47 +327,80 @@ export function addClickEventToImage(cardElement) {
   }
 }
 
-export function createCard(card) {
-  // creating main card container -
-  const galleryBox = document.createElement("div");
-  galleryBox.classList.add("card__area");
+/************************ Crear una card **************************************/
 
-  // creating delete button - ya en card
-  const deleteButton = document.createElement("button");
-  deleteButton.classList.add("card__delete-icon");
+export function createCards(card) {
+  console.log("card...", card);
 
-  // creating gallery image icon - ya en card
-  const galleryImage = document.createElement("img");
-  galleryImage.classList.add("card__image");
-  galleryImage.src = card.link;
-  galleryImage.alt = card.name;
+  const cardElement = new Card(
+    card,
+    () => popupConfirmDelete.open(card._id),
+    () => popupConfirmDelete.close()
+  );
+  const cardCreation = cardElement.getCard();
 
-  // creating gallery container div - ya en card
-  const galleryContainerDiv = document.createElement("div");
-  galleryContainerDiv.classList.add("card__menu");
+  if (cardCreation) {
+    console.log("cardCreation...", cardCreation);
+    galleryContainer.prepend(cardCreation);
+    addClickEventToImage(cardCreation);
+  }
 
-  // adding title to gallery container div - ya en card
-  const galleryTitle = document.createElement("h3");
-  galleryTitle.classList.add("card__title");
-  galleryTitle.textContent = card.name;
+  // // creating main card container -
+  // const galleryBox = document.createElement("div");
+  // galleryBox.classList.add("card__area");
 
-  // creating like button - ya en card
-  const likeButton = document.createElement("button");
-  likeButton.classList.add("card__like");
+  // // creating delete button - ya en card
+  // const galleryDeleteButton = document.createElement("button");
+  // galleryDeleteButton.classList.add("card__delete-icon");
 
-  likeButton.addEventListener("click", function () {
-    likeButton.classList.toggle("card__like_active");
-  });
+  // // creating gallery image icon - ya en card
+  // const galleryImage = document.createElement("img");
+  // galleryImage.classList.add("card__image");
+  // galleryImage.src = card.link;
+  // galleryImage.alt = card.name;
 
-  galleryContainerDiv.appendChild(galleryTitle);
-  galleryContainerDiv.appendChild(likeButton);
-  galleryBox.appendChild(deleteButton);
-  galleryBox.appendChild(galleryImage);
-  galleryBox.appendChild(galleryContainerDiv);
+  // // creating gallery container div - ya en card
+  // const createGalleryDiv = document.createElement("div");
+  // createGalleryDiv.classList.add("card__menu");
 
-  deleteButton.addEventListener("click", () => {
-    galleryBox.remove();
-  });
+  // // adding title to gallery container div - ya en card
+  // const galleryTitle = document.createElement("h3");
+  // galleryTitle.classList.add("card__title");
+  // galleryTitle.textContent = card.name;
 
-  return galleryBox;
+  // // creating like button - ya en card
+  // const likeButton = document.createElement("button");
+  // likeButton.classList.add("card__like");
+
+  // likeButton.addEventListener("click", function () {
+  //   likeButton.classList.toggle("card__like_active");
+  // });
+
+  // createGalleryDiv.appendChild(galleryTitle);
+  // createGalleryDiv.appendChild(likeButton);
+  // galleryBox.appendChild(galleryDeleteButton);
+  // galleryBox.appendChild(galleryImage);
+  // galleryBox.appendChild(createGalleryDiv);
+
+  // galleryDeleteButton.addEventListener("click", () => {
+  //   galleryBox.remove();
+  // });
+
+  // return galleryBox;
 }
+
+createPlaceSubmitButton.addEventListener("click", () => {
+  // Verificamos si el formulario es válido antes de cerrarlo
+  if (createPlaceFormElement) {
+    createPlaceFormElement.style.display = "none";
+    createPlaceBackground.style.display = "none";
+  }
+});
+
+profileSubmitButton.addEventListener("click", () => {
+  // Verificamos si el formulario es válido antes de cerrarlo
+  if (profileFormElement) {
+    // profileFormElement.style.display = "none";
+    profileFormBackground.style.display = "none";
+  }
+});

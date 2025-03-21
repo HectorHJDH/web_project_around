@@ -21,16 +21,12 @@ export default class PopupWithForm extends Popup {
   open() {
     super.open();
   }
-  // crear constante que apunte al popup
+
   close() {
     super.close();
     const form = document.querySelector("#createPlace__form");
     if (form) {
       document.querySelector(".createPlace__form-submit").disabled = true;
-      console.log(
-        "Botón deshabilitado:",
-        document.querySelector(".createPlace__form-submit")
-      );
 
       document
         .querySelector(".createPlace__form-submit")
@@ -44,12 +40,6 @@ export default class PopupWithForm extends Popup {
 
   setEventListeners() {
     super.setEventListeners();
-    const editButtonProfile = document.querySelector(".profile__editButton");
-
-    if (editButtonProfile) {
-      editButtonProfile.removeEventListener("click", this._handleOpen);
-      editButtonProfile.addEventListener("click", () => this._handleOpen());
-    }
 
     const form = this._popup.querySelector(".popup__form");
 
@@ -57,12 +47,6 @@ export default class PopupWithForm extends Popup {
       form.removeEventListener("submit", (evt) => this._handleSubmitForm(evt));
       form.addEventListener("submit", (evt) => this._handleSubmitForm(evt));
     }
-  }
-
-  // Creamos métodos para reutilizar en removeEventListener
-  _handleOpen() {
-    console.log("Abriendo formulario");
-    this.open();
   }
 
   _handleSubmitForm(evt) {

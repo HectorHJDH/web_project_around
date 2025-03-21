@@ -1,9 +1,9 @@
 export default class UserInfo {
   constructor({ nameSelector, titleSelector }) {
-    this._nameElement = document.querySelector(nameSelector);
-    this._titleElement = document.querySelector(titleSelector);
+    this._nameInput = document.querySelector(nameSelector);
+    this._titleInput = document.querySelector(titleSelector);
 
-    if (!this._nameElement || !this._titleElement) {
+    if (!this._nameInput || !this._titleInput) {
       throw new Error(
         "No se encontraron los elementos especificados en el DOM."
       );
@@ -12,8 +12,8 @@ export default class UserInfo {
 
   getUserInfo() {
     return {
-      name: this._nameElement.textContent,
-      title: this._titleElement.textContent,
+      name: this._nameInput.textContent,
+      title: this._titleInput.textContent,
     };
   }
 

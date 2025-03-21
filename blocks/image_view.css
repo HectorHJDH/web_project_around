@@ -30,7 +30,7 @@
   position: relative;
 }
 
-.image__viewButton {
+.image__view-button {
   position: relative;
   display: flex;
   align-items: center;
@@ -46,7 +46,7 @@
   border: none;
 }
 
-.image__viewButton:hover {
+.image__view-button:hover {
   opacity: 0.6;
 }
 

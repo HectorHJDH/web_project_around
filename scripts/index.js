@@ -3,147 +3,266 @@ import { FormValidator } from "./FormValidator.js";
 import Section from "./Section.js";
 import PopupWithForm from "./PopupWithForm.js";
 import PopupWithImages from "./PopupWithImages.js";
+import PopupWithConfirmation from "./PopupWithConfirmation.js";
 import UserInfo from "./UserInfo.js";
 import {
   handleCreatePlaceFormSubmit,
   handleProfileFormSubmit,
-  validateProfileName,
-  validateProfileDedication,
-  validateCreatePlaceTitle,
-  validateCreatePlaceURL,
-  checkFormInputsProfile,
-  checkFormInputsPlace,
+  validateProfileForm,
+  validateCreatePlaceForm,
+  handleUpdateProfileImage,
   closeModalFunction,
   addClickEventToImage,
   resetForms,
-  initialCards,
+  checkEditProfileImg,
 } from "./utils.js";
+import { api } from "./Api.js";
 
-// profile__form variables
+/************************ API *******************************************/
+
+const popupConfirmDelete = new PopupWithConfirmation(".deleteCard__background");
+
+console.log(popupConfirmDelete);
+
+// Api para obtener las cards inciales
+api.getInitialCards().then((cards) => {
+  //new Section(
+  //  {
+  //    items: cards,
+  //    renderer: (item) => {
+  //      const cardElement = new Card(item);
+  //      const cardCreation = cardElement.getCard();
+  //
+  //      addClickEventToImage(cardCreation);
+  //    },
+  //  },
+  //  ".gallery"
+  //).renderItems();
+
+  cards.forEach((card) => {
+    const cardElement = new Card(
+      card,
+      () => popupConfirmDelete.open(card._id),
+      () => popupConfirmDelete.close()
+    );
+    const cardCreation = cardElement.getCard();
+
+    galleryContainer.appendChild(cardCreation);
+    addClickEventToImage(cardCreation);
+  });
+});
+
+// Api para obtener el usuario (nombre, about, imagen)
+api.getInitialUser().then((user) => {
+  const profileNameInput = document.querySelector(".profile__name");
+  const profileDedicationInput = document.querySelector(".profile__dedication");
+  const profilePicture = document.querySelector(".profile__picture");
+
+  profileNameInput.textContent = user.name;
+  profileDedicationInput.textContent = user.about;
+  profilePicture.src = user.avatar;
+});
+
+// Api para borrar una card
+// export function deleteCard(cardId) {
+//   api.deleteCard(cardId).then((card) => {
+//     // const cardElement = document.querySelector(`[data-card-id="${cardId}"]`);
+//     // cardElement.remove();
+//   });
+// }
+
+/************************ Elementos del Perfil *****************************/
+
+// Fondo de formulario de perfil
 const profileFormBackground = document.querySelector(".profile__background");
+
+// Elemento seccion de perfil
 const profileFormElement = document.querySelector(".profile__form");
 
-const profileFormElementId = document.getElementById("profile__form");
-const createPlaceFormElementId = document.getElementById("createPlace__form");
+// Elementos del form de perfil
+const profileForm = document.forms.profileF;
 
-const closeButtonProfile = profileFormElement.querySelector(
+// Inputs del formulario de perfil
+export const profileNameInput = profileForm.elements.name;
+export const profileDedicationInput = profileForm.elements.dedication;
+
+// Id del formulario de perfil
+const profileFormId = document.getElementById("profile__form");
+
+// Boton de abrir formulario de info de perfil
+const profileEditButton = document.querySelector(".profile__editButton");
+
+// Boton de cerrar formulario del perfil
+const profileCloseButton = profileFormElement.querySelector(
   ".profile__button-close"
 );
-const editButtonProfile = document.querySelector(".profile__editButton");
 
-const profileForm = document.forms.profileF;
-const profileName = profileForm.elements.name;
-const profileDedication = profileForm.elements.dedication;
+/************************ Elementos foto de Perfil *************************/
 
-// createPlace__form variables
-const createPlaceFormBackground = document.querySelector(
+// Fondo de formulario de cambiar imagen de perfil
+const profileImgBackground = document.querySelector(
+  ".editProfileImg__background"
+);
+
+// Elemento seccion de cambiar imagen de perfil
+const profileImgFormElement = document.querySelector(
+  ".editProfileImg__section"
+);
+
+// Id del formulario de cambiar imagen de perfil
+const profileImgFormId = document.getElementById("editProfileImg__form");
+
+// Boton para abrir el formulario de cambiar imagen de perfil
+const profileImgEditButton = document.querySelector(".profile__picture-button");
+
+// Boton de cerrar formulario de cambiar imagen de perfil
+const closeButtonEditProfileImg = profileImgFormElement.querySelector(
+  ".editProfileImg__button-close"
+);
+
+const profileImgSubmitButton = profileImgFormElement.querySelector(
+  ".editProfileImg__form-submit"
+);
+
+/************************ Elementos Crear un Lugar *************************/
+
+// Fondo de formulario de crear lugar
+const createPlaceBackground = document.querySelector(
   ".createPlace__background"
 );
+
+// Elemento seccion de crear lugar
 const createPlaceFormElement = document.querySelector(".createPlace__form");
-const closeButtonCreatePlace = createPlaceFormElement.querySelector(
+
+// Elementos del form de crear lugar
+const createPlaceForm = document.forms.createPlaceF;
+
+// Inputs del formulario de crear lugar
+export const createPlaceTitleInput = createPlaceForm.elements.placeTitle;
+export const createPlaceUrlInput = createPlaceForm.elements.placeURL;
+
+// Id del formulario de crear lugar
+const createPlaceFormId = document.getElementById("createPlace__form");
+
+// Boton de abrir formulario de crear lugar
+const createPlaceButton = document.querySelector(".createPlace__button");
+
+// Boton de cerrar formulario de crear lugar
+const createPlaceCloseButton = createPlaceFormElement.querySelector(
   ".createPlace__button-close"
 );
 
-const createPlaceButton = document.querySelector(".createPlace__button");
-const createPlaceId = document.querySelector("#createPlace__form");
+/************************ Elementos confirmar borrar card    ****************/
 
-const createPlaceForm = document.forms.createPlaceF;
-const placeTitleInput = createPlaceForm.elements.placeTitle;
-const placeUTLInput = createPlaceForm.elements.placeURL;
+// Fondo de formulario de confirmar borrar
+const deleteCardBackground = document.querySelector(".deleteCard__background");
 
-console.log(createPlaceForm.elements);
+const deleteCardFormElement = document.querySelector(".createPlace__form");
 
-const galleryContainer = document.querySelector(".gallery");
+// deleteCard__form - submit;
 
-// Cerrar los formularios con la tecla "Escape"
-document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape") {
-    profileFormElement.style.display = "none";
+/************************ Gallery *******************************************/
+
+// Elemento section gallery
+export const galleryContainer = document.querySelector(".gallery");
+
+// Template de la gallery
+const galleryCards = document.querySelectorAll(".card__area");
+
+// Boton de borrar card
+const galleryDeleteCardButton = document.querySelector(".card__delete-icon");
+
+/************************ Cerrar Formularios ********************************/
+
+document.addEventListener("DOMContentLoaded", () => {
+  function closeAllForms() {
     profileFormBackground.style.display = "none";
+
+    profileImgBackground.style.display = "none";
+
     createPlaceFormElement.style.display = "none";
-    createPlaceFormBackground.style.display = "none";
+    createPlaceBackground.style.display = "none";
   }
+
+  // Cerrar con Escape
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      closeAllForms();
+    }
+  });
+
+  // Cerrar con cualquier botón de cierre
+  document.querySelectorAll(".close_button").forEach((button) => {
+    button.addEventListener("click", closeAllForms);
+  });
+
+  // Cerrar al hacer clic en el fondo del modal
+  document.addEventListener("click", (event) => {
+    if (
+      event.target === profileFormBackground ||
+      event.target === createPlaceBackground ||
+      event.target === profileImgBackground
+    ) {
+      closeAllForms();
+    }
+  });
 });
 
-// Eventos para validar los inputs del formulario de perfil en tiempo real
-profileName.addEventListener("input", validateProfileName);
-profileDedication.addEventListener("input", validateProfileDedication);
+/************************ Validaciones de los Inputs de Perfil **************/
 
-// Eventos para validar los inputs del formulario de crear lugar en tiempo real
-placeTitleInput.addEventListener("input", validateCreatePlaceTitle);
-placeUTLInput.addEventListener("input", validateCreatePlaceURL);
+// Inputs del formulario de perfil
+profileNameInput.addEventListener("input", validateProfileForm);
+profileDedicationInput.addEventListener("input", validateProfileForm);
 
 // Validacion final al enviar el formulario de perfil
 profileFormElement.addEventListener("submit", (e) => {
-  validateProfileName();
-  validateProfileDedication();
+  validateProfileForm();
 
   if (!profileForm.checkValidity()) {
     e.preventDefault();
   }
 });
 
+/************************ Validaciones de los Inputs de Crear Lugar *********/
+
+createPlaceTitleInput.addEventListener("input", validateCreatePlaceForm);
+createPlaceUrlInput.addEventListener("input", validateCreatePlaceForm);
+
 // Validacion final al enviar el formulario de crear lugar
 createPlaceFormElement.addEventListener("submit", (e) => {
-  validateCreatePlaceTitle();
-  validateCreatePlaceURL();
+  validateCreatePlaceForm();
 
   if (!createPlaceForm.checkValidity()) {
     e.preventDefault();
   }
 });
 
-// Eventos profile
-profileName.addEventListener("input", checkFormInputsProfile);
-profileDedication.addEventListener("input", checkFormInputsProfile);
+/************************ Eventos de los botones *****************************/
 
-//editButtonProfile.addEventListener("click", () => {
-//  profileFormElement.style.display = "block";
-//  profileFormBackground.style.display = "flex";
-//  resetForms();
-//});
-
-closeButtonProfile.addEventListener("click", () => {
-  profileFormElement.style.display = "none";
-  profileFormBackground.style.display = "none";
-});
-
-profileFormBackground.addEventListener("click", (event) => {
-  if (event.target === profileFormBackground) {
-    profileFormBackground.style.display = "none";
-  }
-});
-
-// Eventos createPlace
-// placeTitleInput.addEventListener("input", checkFormInputsPlace);
-// placeUTLInput.addEventListener("input", checkFormInputsPlace);
-createPlaceFormElement.addEventListener("submit", handleCreatePlaceFormSubmit);
-
+// Muestra el formulario de crear lugar
 createPlaceButton.addEventListener("click", () => {
   createPlaceFormElement.style.display = "block";
-  createPlaceFormBackground.style.display = "flex";
+  createPlaceBackground.style.display = "flex";
   resetForms();
 });
 
-closeButtonCreatePlace.addEventListener("click", () => {
-  createPlaceFormElement.style.display = "none";
-  createPlaceFormBackground.style.display = "none";
-});
+// Muestra el formulario de conmfirmación de borrar card
+// galleryDeleteCardButton.addEventListener("click", () => {
+//   popupConfirmDelete.open();
+// });
 
-createPlaceFormBackground.addEventListener("click", (event) => {
-  if (event.target === createPlaceFormBackground) {
-    createPlaceFormBackground.style.display = "none";
-  }
-});
+// Evento submit crear lugar
+createPlaceFormElement.addEventListener("submit", handleCreatePlaceFormSubmit);
 
-// Click en una imagen
+profileImgSubmitButton.addEventListener("click", handleUpdateProfileImage);
+
+/************************ Vista ampliada de Imagen ****************************/
+
 const imgPreviewElement = document.querySelector(".image__view");
-const previewImg = document.querySelector(".image__view-img");
 
-const closePreview = document.querySelector(".image__viewButton");
-const previewTitle = document.querySelector(".image__view-title");
+const imgPreviewCloseButton = document.querySelector(".image__view-button");
 
-closePreview.addEventListener("click", closeModalFunction);
+imgPreviewCloseButton.addEventListener("click", closeModalFunction);
 
 imgPreviewElement.addEventListener("click", (e) => {
   if (e.target === imgPreviewElement) {
@@ -151,55 +270,70 @@ imgPreviewElement.addEventListener("click", (e) => {
   }
 });
 
-const galleryCards = document.querySelectorAll(".card__area");
-// galleryCards.forEach(addClickEventToImage);
+/************************ Popup ************************************************/
 
-new Section(
-  {
-    items: initialCards,
-    renderer: (item) => {
-      const cardElement = new Card(item);
-      const cardCreation = cardElement.getCard();
+// Ejecuta la vista del formulario de perfil
+const popupWithForm = new PopupWithForm(".popup", validateProfileForm);
 
-      addClickEventToImage(cardCreation);
-    },
-  },
-  ".gallery"
-).renderItems();
-
-const popupWithForm = new PopupWithForm(".popup", checkFormInputsProfile);
-
+// Ejecuta la vista previa de la imagen
 const popupWithImage = new PopupWithImages(".image__view");
 
+// Ejecuta la vista del formulario de cambiar imagen de perfil
+const popupWithFormImg = new PopupWithForm(
+  ".editProfileImgPopup",
+  checkEditProfileImg
+);
+
+// Ejecuta la vista del formulario de borrar card
+
+// Actualiza la información del usuario
 const userInfo = new UserInfo({
   nameSelector: "#place-title",
   titleSelector: "#place-URL",
 });
+// userInfo.getUserInfo();
 
+/************************ Event Listeners *****************************************/
+
+// formulario de perfil
 popupWithForm.setEventListeners();
 
+// vista previa de la imagen
 popupWithImage.setEventListeners();
 
-editButtonProfile.addEventListener("click", () => {
+// formulario de cambiar imagen de perfil
+popupWithFormImg.setEventListeners();
+
+// formulario de borrar card
+popupConfirmDelete.setEventListeners();
+
+// Boton de abrir formulario de perfil
+profileEditButton.addEventListener("click", () => {
   popupWithForm.open();
 });
 
-// userInfo.getUserInfo();
+// Boton de abrir formulario de foto de perfil
+profileImgEditButton.addEventListener("click", () => {
+  popupWithFormImg.open();
+});
+
+// Boton de abrir form de borrar card
+profileCloseButton.addEventListener("click", () => {
+  popupWithForm.close();
+});
+
+// Boton de abrir form de borrar card
+// galleryDeleteCardButton.addEventListener("click", () => {
+//   popupConfirmDelete.open();
+// });
+
 profileFormElement.addEventListener(
   "submit",
   handleProfileFormSubmit(userInfo.setUserInfo)
 );
 
-initialCards.forEach((card) => {
-  const cardElement = new Card(card);
-  const cardCreation = cardElement.getCard();
+/************************ Form Validator *******************************************/
 
-  galleryContainer.appendChild(cardCreation);
-  addClickEventToImage(cardCreation);
-  // return cardCreation;
-});
-
-// Validación del formulario de perfil
 const profileFormValidator = new FormValidator(
   {
     inputSelector: ".profile__form-input",
@@ -208,10 +342,10 @@ const profileFormValidator = new FormValidator(
     activeButtonClass: "form__button_active",
     inactiveButtonClass: "form__button_inactive",
   },
-  profileFormElementId,
+  profileFormId,
   () => popupWithForm.close()
 );
-//createPlace__form-submit
+
 // Validación del formulario de crear lugar
 const cardFormValidator = new FormValidator(
   {
@@ -221,9 +355,22 @@ const cardFormValidator = new FormValidator(
     activeButtonClass: "form__button_active",
     inactiveButtonClass: "form__button_inactive",
   },
-  createPlaceFormElementId,
+  createPlaceFormId,
+  () => popupWithForm.close()
+);
+
+const changeProfileImgValidator = new FormValidator(
+  {
+    inputSelector: ".editProfileImg__form-input",
+    submitButtonSelector: ".editProfileImg__form-submit",
+    inputErrorClass: "form__input_type_error",
+    activeButtonClass: "form__button_active",
+    inactiveButtonClass: "form__button_inactive",
+  },
+  profileImgFormId,
   () => popupWithForm.close()
 );
 
 profileFormValidator.enableValidation();
 cardFormValidator.enableValidation();
+changeProfileImgValidator.enableValidation();

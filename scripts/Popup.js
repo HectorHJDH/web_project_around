@@ -14,9 +14,18 @@ export default class Popup {
 
   // Método público para abrir el popup
   open() {
-    this._popup.classList.add("popup__open");
-    this._popup.style.display = "flex"; // 🔥 Forzar visibilidad en caso de que display: none siga activo
-    document.addEventListener("keydown", this._handleEscClose);
+    console.log(this._popup);
+    if (
+      this._popup.classList.contains("editProfileImgPopup") ||
+      this._popup.classList.contains("deleteCard__background")
+    ) {
+      this._popup.style.display = "flex"; // 🔥 Forzar visibilidad en caso de que display: none siga activo
+      document.addEventListener("keydown", this._handleEscClose);
+    } else {
+      this._popup.classList.add("popup__open");
+      this._popup.style.display = "flex"; // 🔥 Forzar visibilidad en caso de que display: none siga activo
+      document.addEventListener("keydown", this._handleEscClose);
+    }
   }
 
   // Método público para cerrar el popup
@@ -27,6 +36,7 @@ export default class Popup {
       getComputedStyle(this._popup).display
     );
 
+    this._popup.style.display = "none";
     this._popup.classList.remove("popup__open");
     this._popup.style.display = "none";
 

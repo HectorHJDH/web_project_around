@@ -20,11 +20,14 @@
       <main class="content">
         <section class="profile">
           <div class="profile__spacing">
-            <img
-              src="../images/Profile_photo.jpg"
-              class="profile__picture"
-              alt="profile picture"
-            />
+            <button class="profile__picture-container profile__picture-button">
+              <img
+                src="../images/Profile_photo.jpg"
+                class="profile__picture"
+                alt="profile picture"
+              />
+              <div class="edit__icon"></div>
+            </button>
             <div class="profile__container" id="profile-data">
               <div class="profile__container profile__content">
                 <h2 class="profile__content profile__name">Jacques Costeau</h2>
@@ -40,7 +43,7 @@
           <div class="image__view-column">
             <div class="image__view-order">
               <img class="image__view-img" alt="Expanded image" />
-              <button class="image__viewButton"></button>
+              <button class="image__view-button"></button>
             </div>
             <p class="image__view-title">Image Title Here</p>
           </div>
@@ -48,7 +51,7 @@
 
         <div class="profile__background popup">
           <section class="profile__form">
-            <button class="profile__button-close"></button>
+            <button class="profile__button-close close_button"></button>
             <div class="form__container">
               <form
                 id="profile__form"
@@ -68,7 +71,7 @@
                     maxlength="40"
                     required
                   />
-                  <span class="profile__error-message" id="name-error"
+                  <span class="profile__error-message" id="profile-name-error"
                     >Error message</span
                   >
                 </div>
@@ -84,7 +87,9 @@
                     maxlength="200"
                     required
                   />
-                  <span class="profile__error-message" id="dedication-error"
+                  <span
+                    class="profile__error-message"
+                    id="profile-dedication-error"
                     >Error message</span
                   >
                 </div>
@@ -97,10 +102,48 @@
           </section>
         </div>
 
+        <div class="editProfileImg__background editProfileImgPopup">
+          <section class="editProfileImg__section">
+            <div class="form__container">
+              <button
+                class="editProfileImg__button-close close_button"
+              ></button>
+              <form
+                id="editProfileImg__form"
+                class="editProfileImg__form"
+                name="editProfileImgF"
+              >
+                <h3 class="editProfileImgForm__title">
+                  Cambiar foto de Perfil
+                </h3>
+
+                <div class="editProfileImg__input-wrapper">
+                  <input
+                    type="url"
+                    id="editProfileImgURL"
+                    name="editProfileImgURL"
+                    class="editProfileImg__form-input"
+                    placeholder="Enlace a la imagen"
+                    required
+                  />
+                  <span
+                    class="editProfileImg__error-message"
+                    id="place-URL-error"
+                  ></span>
+                </div>
+
+                <button type="submit" class="editProfileImg__form-submit">
+                  Guardar
+                </button>
+              </form>
+            </div>
+          </section>
+        </div>
+
         <div class="createPlace__background">
           <section class="createPlace__form">
             <div class="form__container">
-              <button class="createPlace__button-close"></button>
+              <button class="createPlace__button-close close_button"></button>
               <form
                 id="createPlace__form"
                 class="place__form"
@@ -144,6 +187,19 @@
                   Guardar
                 </button>
               </form>
+            </div>
+          </section>
+        </div>
+
+        <div class="deleteCard__background deleteCard__popup">
+          <section class="deleteCard__section">
+            <div class="form__container">
+              <button class="deleteCard__button-close close_button"></button>
+              <div id="deleteCard__form" class="deleteCard__form">
+                <h3 class="deleteCardForm__title">Estas seguro/a?</h3>
+
+                <button class="deleteCard__form-submit">Si</button>
+              </div>
             </div>
           </section>
         </div>
