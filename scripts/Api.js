@@ -97,6 +97,20 @@ class Api {
       return Promise.reject(`Error: ${res.status}`);
     });
   }
+
+  editProfileCredentials({ name, about }) {
+    return fetch(`${this._baseUrl}/users/me`, {
+      method: "PATCH",
+      headers: this._headers,
+      body: JSON.stringify({ name, about }),
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+
+      return Promise.reject(`Error: ${res.status}`);
+    });
+  }
 }
 
 export const api = new Api({

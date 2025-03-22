@@ -402,5 +402,9 @@ profileSubmitButton.addEventListener("click", () => {
   if (profileFormElement) {
     // profileFormElement.style.display = "none";
     profileFormBackground.style.display = "none";
+    api.editProfileCredentials({
+      name: profileNameInput.value,
+      about: profileDedicationInput.value,
+    });
   }
 });
